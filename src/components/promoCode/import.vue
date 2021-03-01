@@ -3,7 +3,7 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">导入</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -14,7 +14,7 @@
         <Button color="primary" @click="$refs.xlsfile.click()">选择excel文件，支持：xls,xlsx格式文件</Button>
         <div style="display: none">
           <form ref="form">
-            <input type="file" ref="xlsfile" />
+            <input ref="xlsfile" type="file">
           </form>
         </div>
       </div>
@@ -22,56 +22,56 @@
   </div>
 </template>
 <script>
-import XLSX from 'xlsx';
+import XLSX from 'xlsx'
 
 export default {
   data() {
     return {
       loading: false
-    };
+    }
   },
   mounted() {
-    this.$refs.xlsfile.addEventListener('change', this.handleFile, false);
+    this.$refs.xlsfile.addEventListener('change', this.handleFile, false)
   },
   methods: {
     handleFile(e) {
       // 处理文件
-      let files = e.target.files;
+      const files = e.target.files
       if (files.length === 0) {
-        return;
+        return
       }
-      let f = files[0];
+      const f = files[0]
       // 文件扩展名检测
-      let extension = f.name.split('.');
-      extension = extension[extension.length - 1];
+      let extension = f.name.split('.')
+      extension = extension[extension.length - 1]
       if (!(extension === 'xls' || extension === 'xlsx')) {
-        HeyUI.$Message.warn('请选择xls文件,xlsx文件');
-        return;
+        HeyUI.$Message.warn('请选择xls文件,xlsx文件')
+        return
       }
-      let reader = new FileReader();
+      const reader = new FileReader()
       reader.onload = e => {
-        let data = new Uint8Array(e.target.result);
-        let workbook = XLSX.read(data, { type: 'array', cellDates: true });
-        let parseData = this.parseData(workbook);
+        const data = new Uint8Array(e.target.result)
+        const workbook = XLSX.read(data, { type: 'array', cellDates: true })
+        const parseData = this.parseData(workbook)
         // 请求导入api
-        this.$refs.form.reset();
+        this.$refs.form.reset()
         R.PromoCode.Import({ data: parseData }).then(res => {
-          HeyUI.$Message.success('导入成功');
-          this.$emit('success');
-        });
-      };
-      reader.readAsArrayBuffer(f);
+          HeyUI.$Message.success('导入成功')
+          this.$emit('success')
+        })
+      }
+      reader.readAsArrayBuffer(f)
     },
     parseData(workbook) {
-      let data = [];
-      workbook.SheetNames.forEach(function (sheetName) {
-        var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+      const data = []
+      workbook.SheetNames.forEach(function(sheetName) {
+        var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 })
         if (roa.length) {
-          data.push(...roa);
+          data.push(...roa)
         }
-      });
-      return data;
+      })
+      return data
     }
   }
-};
+}
 </script>

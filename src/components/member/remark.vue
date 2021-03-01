@@ -4,20 +4,20 @@
       <span class="h-panel-title">备注</span>
       <div class="h-panel-right">
         <Button color="primary" @click="update">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form">
+      <Form ref="form" mode="block">
         <FormItem label="备注">
-          <tinymce-editor v-model="user.remark"></tinymce-editor>
+          <tinymce-editor v-model="user.remark" />
         </FormItem>
       </Form>
     </div>
   </div>
 </template>
 <script>
-import TinymceEditor from '../common/tinymce';
+import TinymceEditor from '../common/tinymce'
 
 export default {
   components: {
@@ -30,19 +30,19 @@ export default {
         id: this.id,
         remark: null
       }
-    };
+    }
   },
   mounted() {
     R.Member.Remark(this.user).then(res => {
-      this.user.remark = res.data.remark;
-    });
+      this.user.remark = res.data.remark
+    })
   },
   methods: {
     update() {
       R.Member.RemarkUpdate(this.user).then(res => {
-        this.$emit('success', this.user);
-      });
+        this.$emit('success', this.user)
+      })
     }
   }
-};
+}
 </script>

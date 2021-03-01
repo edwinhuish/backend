@@ -39,35 +39,35 @@
       <span class="h-panel-title">编辑</span>
       <div class="h-panel-right">
         <Button color="primary" @click="save">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :labelWidth="110" :rules="rules" :model="role">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :label-width="110" :rules="rules" :model="role">
         <Row :space="10">
           <Cell :width="6">
             <FormItem label="角色名" prop="display_name">
-              <input type="text" v-model="role.display_name" />
+              <input v-model="role.display_name" type="text">
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="Slug" prop="slug">
-              <input type="text" v-model="role.slug" />
+              <input v-model="role.slug" type="text">
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="描述" prop="description">
-              <input type="text" v-model="role.description" />
+              <input v-model="role.description" type="text">
             </FormItem>
           </Cell>
         </Row>
         <Row :space="10">
           <Cell :width="24">
             <div class="permissions-box">
-              <div class="permission-item" v-for="(items, title) in permissions" :key="title">
+              <div v-for="(items, title) in permissions" :key="title" class="permission-item">
                 <div class="title">{{ title }}</div>
                 <div class="content">
-                  <Checkbox v-model="role.permission_ids" :value="item.id" v-for="item in items" :key="item.id">{{ item.display_name }}</Checkbox>
+                  <Checkbox v-for="item in items" :key="item.id" v-model="role.permission_ids" :value="item.id">{{ item.display_name }}</Checkbox>
                 </div>
               </div>
             </div>
@@ -78,7 +78,7 @@
   </div>
 </template>
 <script>
-import Role from 'model/AdministratorRole';
+import Role from 'model/AdministratorRole'
 
 export default {
   props: ['id'],
@@ -89,28 +89,28 @@ export default {
         required: ['display_name', 'description']
       },
       permissions: []
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
       R.AdministratorRole.Edit({ id: this.id }).then(resp => {
-        this.role = resp.data;
-      });
+        this.role = resp.data
+      })
 
       R.AdministratorRole.Create().then(res => {
-        let data = res.data.permissions;
-        this.permissions = data;
-      });
+        const data = res.data.permissions
+        this.permissions = data
+      })
     },
     save() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        this.$emit('success', this.role);
+        this.$emit('success', this.role)
       }
     }
   }
-};
+}
 </script>

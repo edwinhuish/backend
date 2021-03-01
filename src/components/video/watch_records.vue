@@ -3,7 +3,7 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">观看记录</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -12,12 +12,12 @@
           <Row :space="10">
             <Cell :width="6">
               <FormItem label="UID">
-                <user-filter v-model="filter.user_id"></user-filter>
+                <user-filter v-model="filter.user_id" />
               </FormItem>
             </Cell>
             <Cell :width="10">
               <FormItem label="看完时间">
-                <DateRangePicker v-model="dateRange" format="YYYY-MM-DD"></DateRangePicker>
+                <DateRangePicker v-model="dateRange" format="YYYY-MM-DD" />
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -32,8 +32,8 @@
 
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="list">
-          <TableItem title="视频ID" prop="video_id" :width="80"></TableItem>
-          <TableItem title="用户ID" prop="user_id" :width="80"></TableItem>
+          <TableItem title="视频ID" prop="video_id" :width="80" />
+          <TableItem title="用户ID" prop="user_id" :width="80" />
           <TableItem title="用户" :width="120">
             <template slot-scope="{ data }">
               <span v-if="typeof users[data.user_id] !== 'undefined'">{{ users[data.user_id].nick_name }}</span>
@@ -68,33 +68,33 @@
 
           <TableItem title="开始时间" :width="120">
             <template slot-scope="{ data }">
-              <date-text :date="data.created_at"></date-text>
+              <date-text :date="data.created_at" />
             </template>
           </TableItem>
 
           <TableItem title="看完时间" :width="120">
             <template slot-scope="{ data }">
-              <date-text :date="data.watched_at"></date-text>
+              <date-text :date="data.watched_at" />
             </template>
           </TableItem>
         </Table>
       </div>
 
       <div class="float-box mt-10">
-        <Pagination align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-model="pagination" align="right" @change="changePage" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import DurationText from '@/components/common/duration-text';
+import DurationText from '@/components/common/duration-text'
 
 export default {
-  props: ['id', 'course_id', 'user_id'],
   components: {
     DurationText
   },
+  props: ['id', 'course_id', 'user_id'],
   data() {
     return {
       list: [],
@@ -113,45 +113,45 @@ export default {
         watched_end_at: null
       },
       dateRange: {}
-    };
-  },
-  mounted() {
-    this.getData(true);
+    }
   },
   watch: {
     dateRange() {
-      this.filter.watched_start_at = this.dateRange.start;
-      this.filter.watched_end_at = this.dateRange.end;
+      this.filter.watched_start_at = this.dateRange.start
+      this.filter.watched_end_at = this.dateRange.end
     }
+  },
+  mounted() {
+    this.getData(true)
   },
   methods: {
     reset() {
-      this.filter.user_id = null;
-      this.filter.watched_start_at = null;
-      this.filter.watched_end_at = null;
-      this.dateRange = {};
-      this.getData(true);
+      this.filter.user_id = null
+      this.filter.watched_start_at = null
+      this.filter.watched_end_at = null
+      this.dateRange = {}
+      this.getData(true)
     },
     getData(reset = false) {
       if (reset) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
 
-      this.loading = true;
-      let data = this.pagination;
-      data.video_id = this.id;
-      Object.assign(data, this.filter);
+      this.loading = true
+      const data = this.pagination
+      data.video_id = this.id
+      Object.assign(data, this.filter)
       R.Video.WatchRecords(data).then(res => {
-        this.list = res.data.data.data;
-        this.users = res.data.users;
-        this.videos = res.data.videos;
-        this.pagination.total = res.data.data.total;
-        this.loading = false;
-      });
+        this.list = res.data.data.data
+        this.users = res.data.users
+        this.videos = res.data.videos
+        this.pagination.total = res.data.data.total
+        this.loading = false
+      })
     },
     changePage() {
-      this.getData();
+      this.getData()
     }
   }
-};
+}
 </script>

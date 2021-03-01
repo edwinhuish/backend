@@ -11,20 +11,20 @@
           permission="addons.TemplateOne.slider.store"
           text="添加"
           @click="create()"
-        ></p-button>
+        />
       </div>
       <Table :loading="loading" :datas="datas">
-        <TableItem prop="sort" title="升序"></TableItem>
+        <TableItem prop="sort" title="升序" />
         <TableItem title="图片">
           <template slot-scope="{ data }">
-            <img :src="data.thumb" width="100" height="75" />
+            <img :src="data.thumb" width="100" height="75">
           </template>
         </TableItem>
-        <TableItem prop="url" title="地址"></TableItem>
+        <TableItem prop="url" title="地址" />
         <TableItem title="操作" align="center" :width="200">
           <template slot-scope="{ data }">
-            <p-del-button permission="addons.TemplateOne.slider.delete" @click="remove(datas, data)"></p-del-button>
-            <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.TemplateOne.slider.update" text="编辑" @click="edit(data)"></p-button>
+            <p-del-button permission="addons.TemplateOne.slider.delete" @click="remove(datas, data)" />
+            <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.TemplateOne.slider.update" text="编辑" @click="edit(data)" />
           </template>
         </TableItem>
       </Table>
@@ -37,24 +37,24 @@ export default {
     return {
       datas: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
-      this.getData(true);
+      this.getData(true)
     },
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData(reload = false) {
-      this.loading = true;
+      this.loading = true
       R.Extentions.templateOne.Slider.List().then(resp => {
-        this.datas = resp.data.data;
-        this.loading = false;
-      });
+        this.datas = resp.data.data
+        this.loading = false
+      })
     },
     create() {
       this.$Modal({
@@ -62,25 +62,25 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           }
         },
         events: {
           success: (modal, data) => {
             R.Extentions.templateOne.Slider.Store(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.Extentions.templateOne.Slider.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData(true);
-      });
+        HeyUI.$Message.success('成功')
+        this.getData(true)
+      })
     },
     edit(item) {
       this.$Modal({
@@ -88,7 +88,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -97,14 +97,14 @@ export default {
         events: {
           success: (modal, data) => {
             R.Extentions.templateOne.Slider.Update(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

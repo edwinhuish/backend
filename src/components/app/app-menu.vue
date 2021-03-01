@@ -32,19 +32,19 @@
 </style>
 <template>
   <div class="app-menu">
-    <appLogo></appLogo>
-    <Menu :datas="menus" :inlineCollapsed="siderCollapsed" @click="trigger" ref="menu" :className="`h-menu-${theme}`"></Menu>
-    <div class="app-menu-mask" @click="hideMenu"></div>
+    <appLogo />
+    <Menu ref="menu" :datas="menus" :inline-collapsed="siderCollapsed" :class-name="`h-menu-${theme}`" @click="trigger" />
+    <div class="app-menu-mask" @click="hideMenu" />
 
     <!-- 下面的图片引用是为了统计meedu的使用数量，无其他意义，可删除 -->
     <div style="display: none">
-      <img src="https://meedu.vip/api/v1/stat" />
+      <img src="https://meedu.vip/api/v1/stat">
     </div>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex';
-import appLogo from './app-logo';
+import { mapState } from 'vuex'
+import appLogo from './app-logo'
 
 export default {
   props: {
@@ -53,21 +53,21 @@ export default {
   data() {
     return {
       menus: []
-    };
+    }
   },
   watch: {
     $route() {
-      this.menuSelect();
+      this.menuSelect()
     }
   },
   mounted() {
-    this.init();
+    this.init()
     const listener = G.addlistener('SYS_MENU_UPDATE', () => {
-      this.init();
-    });
-    this.$once('hook:beforeDestroy', function () {
-      G.removelistener(listener);
-    });
+      this.init()
+    })
+    this.$once('hook:beforeDestroy', function() {
+      G.removelistener(listener)
+    })
   },
   computed: {
     ...mapState(['siderCollapsed'])
@@ -75,28 +75,28 @@ export default {
   methods: {
     init() {
       R.User.menus().then(res => {
-        this.menus = res.data.menus;
-        this.menuSelect();
-      });
+        this.menus = res.data.menus
+        this.menuSelect()
+      })
       this.$nextTick(() => {
-        this.menuSelect();
-      });
+        this.menuSelect()
+      })
     },
     menuSelect() {
       if (this.$route.name) {
-        this.$refs.menu.select(this.$route.name);
+        this.$refs.menu.select(this.$route.name)
       }
     },
     trigger(data) {
-      if (data.children.length > 0) return;
-      this.$router.push({ name: data.key });
+      if (data.children.length > 0) return
+      this.$router.push({ name: data.key })
     },
     hideMenu() {
-      this.$store.commit('updateSiderCollapse', true);
+      this.$store.commit('updateSiderCollapse', true)
     }
   },
   components: {
     appLogo
   }
-};
+}
 </script>

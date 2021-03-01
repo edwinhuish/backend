@@ -97,7 +97,7 @@
         <i class="icon-content-left"></i>
       </div> -->
       <DropdownMenu
-        className="app-header-dropdown"
+        class-name="app-header-dropdown"
         trigger="hover"
         offset="0,5"
         :width="150"
@@ -111,7 +111,7 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 
 export default {
   data() {
@@ -121,52 +121,52 @@ export default {
         { key: 'AdministratorPassword', title: '修改密码', icon: 'h-icon-user' },
         { key: 'logout', title: '退出登录', icon: 'h-icon-outbox' }
       ]
-    };
+    }
   },
   computed: {
     ...mapState(['User']),
     siderCollapsed: {
       get() {
-        return this.$store.state.siderCollapsed;
+        return this.$store.state.siderCollapsed
       },
       set(value) {
-        this.$store.commit('updateSiderCollapse', value);
+        this.$store.commit('updateSiderCollapse', value)
       }
     }
   },
   mounted() {
-    this.listenResize();
+    this.listenResize()
   },
   methods: {
     listenResize() {
-      let windowWidth = window.innerWidth;
+      let windowWidth = window.innerWidth
       const resizeEvent = window.addEventListener('resize', () => {
-        if (windowWidth == window.innerWidth) {
-          return;
+        if (windowWidth === window.innerWidth) {
+          return
         }
         if (this.siderCollapsed && window.innerWidth > 900) {
-          this.siderCollapsed = false;
+          this.siderCollapsed = false
         } else if (!this.siderCollapsed && window.innerWidth < 900) {
-          this.siderCollapsed = true;
+          this.siderCollapsed = true
         }
-        windowWidth = window.innerWidth;
-      });
+        windowWidth = window.innerWidth
+      })
       this.$once('hook:beforeDestroy', () => {
-        window.removeEventListener('resize', resizeEvent);
-      });
-      window.dispatchEvent(new Event('resize'));
+        window.removeEventListener('resize', resizeEvent)
+      })
+      window.dispatchEvent(new Event('resize'))
     },
     trigger(data) {
-      if (data == 'logout') {
-        Utils.removeLocal('token');
-        this.$router.replace({ name: 'Login' });
+      if (data === 'logout') {
+        Utils.removeLocal('token')
+        this.$router.replace({ name: 'Login' })
       } else {
-        this.$router.push({ name: 'AdministratorPassword' });
+        this.$router.push({ name: 'AdministratorPassword' })
       }
     },
     showSettingModal() {
-      this.$emit('openSetting');
+      this.$emit('openSetting')
     }
   }
-};
+}
 </script>

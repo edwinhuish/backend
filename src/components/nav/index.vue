@@ -95,7 +95,7 @@
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
-        <p-button glass="h-btn h-btn-primary" permission="nav.store" text="添加" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="nav.store" text="添加" @click="create()" />
       </div>
 
       <div class="float-box mb-10">
@@ -104,20 +104,20 @@
             <div class="pc-box nav-panel">
               <div class="panel-title">PC导航</div>
               <div class="panel-body">
-                <div class="nav-item" v-for="nav in pcList" :key="nav.id">
+                <div v-for="nav in pcList" :key="nav.id" class="nav-item">
                   <div class="body">
                     <div class="name">{{ nav.name }}</div>
                     <div class="option">
-                      <p-del-button permission="nav.destroy" @click="remove(nav)"></p-del-button>
-                      <p-button glass="h-btn h-btn-s h-btn-primary" permission="nav.edit" text="编辑" @click="edit(nav)"></p-button>
+                      <p-del-button permission="nav.destroy" @click="remove(nav)" />
+                      <p-button glass="h-btn h-btn-s h-btn-primary" permission="nav.edit" text="编辑" @click="edit(nav)" />
                     </div>
                   </div>
                   <div class="children">
-                    <div class="children-nav-item" v-for="childrenNav in nav.children" :key="childrenNav.id">
+                    <div v-for="childrenNav in nav.children" :key="childrenNav.id" class="children-nav-item">
                       <div class="name">{{ childrenNav.name }}</div>
                       <div class="option">
-                        <p-del-button permission="nav.destroy" @click="remove(childrenNav)"></p-del-button>
-                        <p-button glass="h-btn h-btn-s h-btn-primary" permission="nav.edit" text="编辑" @click="edit(childrenNav)"></p-button>
+                        <p-del-button permission="nav.destroy" @click="remove(childrenNav)" />
+                        <p-button glass="h-btn h-btn-s h-btn-primary" permission="nav.edit" text="编辑" @click="edit(childrenNav)" />
                       </div>
                     </div>
                   </div>
@@ -129,12 +129,12 @@
             <div class="h5-box nav-panel">
               <div class="panel-title">H5导航</div>
               <div class="panel-body">
-                <div class="nav-item" v-for="nav in h5List" :key="nav.id">
+                <div v-for="nav in h5List" :key="nav.id" class="nav-item">
                   <div class="body">
                     <div class="name">{{ nav.name }}</div>
                     <div class="option">
-                      <p-del-button permission="nav.destroy" @click="remove(nav)"></p-del-button>
-                      <p-button glass="h-btn h-btn-s h-btn-primary" permission="nav.edit" text="编辑" @click="edit(nav)"></p-button>
+                      <p-del-button permission="nav.destroy" @click="remove(nav)" />
+                      <p-button glass="h-btn h-btn-s h-btn-primary" permission="nav.edit" text="编辑" @click="edit(nav)" />
                     </div>
                   </div>
                 </div>
@@ -152,41 +152,41 @@ export default {
     return {
       datas: [],
       loading: false
-    };
+    }
   },
   computed: {
     pcList() {
-      let list = [];
+      const list = []
       for (let i = 0; i < this.datas.length; i++) {
         if (this.datas[i].platform === 'PC') {
-          list.push(this.datas[i]);
+          list.push(this.datas[i])
         }
       }
-      return list;
+      return list
     },
     h5List() {
-      let list = [];
+      const list = []
       for (let i = 0; i < this.datas.length; i++) {
         if (this.datas[i].platform === 'h5') {
-          list.push(this.datas[i]);
+          list.push(this.datas[i])
         }
       }
-      return list;
+      return list
     }
   },
   mounted() {
-    this.getData(true);
+    this.getData(true)
   },
   methods: {
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData() {
-      this.loading = true;
+      this.loading = true
       R.Nav.List().then(resp => {
-        this.datas = resp.data;
-        this.loading = false;
-      });
+        this.datas = resp.data
+        this.loading = false
+      })
     },
     create() {
       this.$Modal({
@@ -194,22 +194,22 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           }
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData();
+            modal.close()
+            this.getData()
           }
         }
-      });
+      })
     },
     remove(item) {
       R.Nav.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData();
-      });
+        HeyUI.$Message.success('成功')
+        this.getData()
+      })
     },
     edit(item) {
       this.$Modal({
@@ -217,7 +217,7 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -225,12 +225,12 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData();
+            modal.close()
+            this.getData()
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

@@ -4,40 +4,40 @@
       <span class="h-panel-title">编辑</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="paths">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="paths">
         <FormItem label="路径名" prop="name">
           <template v-slot:label>路径名</template>
-          <input type="text" v-model="paths.name" />
+          <input v-model="paths.name" type="text">
         </FormItem>
         <FormItem label="封面" prop="thumb">
           <template v-slot:label>封面</template>
-          <image-upload v-model="paths.thumb" name="封面"></image-upload>
+          <image-upload v-model="paths.thumb" name="封面" />
         </FormItem>
         <FormItem label="原价" prop="original_charge">
           <template v-slot:label>原价</template>
-          <div class="h-input-group" v-width="200">
-            <input type="text" v-model="paths.original_charge" />
+          <div v-width="200" class="h-input-group">
+            <input v-model="paths.original_charge" type="text">
             <span class="h-input-addon">元</span>
           </div>
         </FormItem>
         <FormItem label="现价" prop="charge">
           <template v-slot:label>现价</template>
-          <div class="h-input-group" v-width="200">
-            <input type="text" v-model="paths.charge" />
+          <div v-width="200" class="h-input-group">
+            <input v-model="paths.charge" type="text">
             <span class="h-input-addon">元</span>
           </div>
         </FormItem>
         <FormItem label="描述" prop="desc">
           <template v-slot:label>描述</template>
-          <textarea v-model="paths.desc"></textarea>
+          <textarea v-model="paths.desc" />
         </FormItem>
         <FormItem label="显示" prop="is_show">
           <template v-slot:label>显示</template>
-          <h-switch v-model="paths.is_show" :trueValue="1" :falseValue="0"></h-switch>
+          <h-switch v-model="paths.is_show" :true-value="1" :false-value="0" />
         </FormItem>
       </Form>
     </div>
@@ -46,11 +46,6 @@
 <script>
 export default {
   props: ['id'],
-  mounted() {
-    R.Extentions.learningPaths.Paths.Edit({ id: this.id }).then(res => {
-      this.paths = res.data;
-    });
-  },
   data() {
     return {
       paths: {
@@ -64,15 +59,20 @@ export default {
       rules: {
         required: ['name', 'is_show', 'thumb', 'charge', 'original_charge', 'desc']
       }
-    };
+    }
+  },
+  mounted() {
+    R.Extentions.learningPaths.Paths.Edit({ id: this.id }).then(res => {
+      this.paths = res.data
+    })
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        this.$emit('success', this.paths);
+        this.$emit('success', this.paths)
       }
     }
   }
-};
+}
 </script>

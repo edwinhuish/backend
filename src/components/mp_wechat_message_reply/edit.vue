@@ -4,32 +4,32 @@
       <span class="h-panel-title">编辑</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="message">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="message">
         <FormItem label="消息类型" prop="type">
-          <Select v-model="message.type" :datas="types" keyName="id" titleName="name"></Select>
+          <Select v-model="message.type" :datas="types" key-name="id" title-name="name" />
         </FormItem>
 
         <template v-if="message.type === 'text'">
           <FormItem label="匹配规则" prop="rule">
-            <input type="text" v-model="message.rule" />
+            <input v-model="message.rule" type="text">
             <warn text="支持正则表达式" />
           </FormItem>
         </template>
         <template v-else-if="message.type === 'event'">
           <FormItem label="事件" prop="event_type">
-            <Select v-model="message.event_type" :datas="eventTypes" keyName="id" titleName="name"></Select>
+            <Select v-model="message.event_type" :datas="eventTypes" key-name="id" title-name="name" />
           </FormItem>
           <FormItem label="事件key" prop="event_key">
-            <input type="text" v-model="message.event_key" />
+            <input v-model="message.event_key" type="text">
           </FormItem>
         </template>
 
         <FormItem label="回复内容" prop="reply_content">
-          <textarea v-model="message.reply_content" rows="3" placeholder="回复内容"></textarea>
+          <textarea v-model="message.reply_content" rows="3" placeholder="回复内容" />
         </FormItem>
       </Form>
     </div>
@@ -69,26 +69,26 @@ export default {
           name: '自定义菜单事件'
         }
       ]
-    };
+    }
   },
   mounted() {
     R.MpWechatMessageReply.Create().then(res => {
-      this.types = res.data.types;
-    });
+      this.types = res.data.types
+    })
     R.MpWechatMessageReply.Edit({ id: this.id }).then(res => {
-      this.message = res.data.data;
-    });
+      this.message = res.data.data
+    })
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
         R.MpWechatMessageReply.Update(this.message).then(resp => {
-          HeyUI.$Message.success('成功');
-          this.$emit('success');
-        });
+          HeyUI.$Message.success('成功')
+          this.$emit('success')
+        })
       }
     }
   }
-};
+}
 </script>

@@ -3,7 +3,7 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">考试记录</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -12,12 +12,12 @@
           <Row>
             <Cell :width="6">
               <FormItem label="用户ID">
-                <input type="number" v-model="filter.user_id" placeholder="用户id" />
+                <input v-model="filter.user_id" type="number" placeholder="用户id">
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="状态">
-                <Select v-model="filter.status" :datas="statusMap" keyName="id" titleName="text"></Select>
+                <Select v-model="filter.status" :datas="statusMap" key-name="id" title-name="text" />
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -31,8 +31,8 @@
       </div>
       <div class="float-box mb-10">
         <Table ref="table" :loading="loading" :datas="datas">
-          <TableItem title="ID" prop="id" :width="80"></TableItem>
-          <TableItem title="用户ID" prop="user_id" :width="80"></TableItem>
+          <TableItem title="ID" prop="id" :width="80" />
+          <TableItem title="用户ID" prop="user_id" :width="80" />
           <TableItem title="用户" :width="120">
             <template slot-scope="{ data }">
               <span v-if="data.user">{{ data.user.nick_name }}</span>
@@ -42,7 +42,7 @@
           <TableItem title="分数" :width="80">
             <template slot-scope="{ data }">
               <span v-if="data.status === 2">{{ data.score }}分</span>
-              <span v-else></span>
+              <span v-else />
             </template>
           </TableItem>
           <TableItem title="状态" :width="80">
@@ -58,14 +58,14 @@
                 permission="addons.Paper.paper.userPaper.submit"
                 :text="data.status === 3 ? '阅卷' : '详情'"
                 @click="showScore(data)"
-              ></p-button>
+              />
             </template>
           </TableItem>
         </Table>
       </div>
 
       <div class="float-box mb-10">
-        <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-model="pagination" class="mt-10" align="right" @change="changePage" />
       </div>
     </div>
   </div>
@@ -87,36 +87,36 @@ export default {
         status: -1,
         user_id: null
       }
-    };
+    }
   },
   mounted() {
-    this.getData();
+    this.getData()
   },
   methods: {
     changePage() {
-      this.getData();
+      this.getData()
     },
     resetFilter() {
       this.filter = {
         status: -1,
         user_id: null
-      };
-      this.getData(true);
+      }
+      this.getData(true)
     },
     getData(reset = false) {
       if (reset) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
-      let data = this.pagination;
-      data.id = this.paper_id;
-      Object.assign(data, this.filter);
+      this.loading = true
+      const data = this.pagination
+      data.id = this.paper_id
+      Object.assign(data, this.filter)
       R.Extentions.paper.Paper.UserPapers(data).then(resp => {
-        this.datas = resp.data.data.data;
-        this.pagination.total = resp.data.data.total;
-        this.loading = false;
-        this.statusMap = resp.data.statusMap;
-      });
+        this.datas = resp.data.data.data
+        this.pagination.total = resp.data.data.total
+        this.loading = false
+        this.statusMap = resp.data.statusMap
+      })
     },
     showScore(item) {
       this.$Modal({
@@ -124,7 +124,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./score'], resolve);
+            require(['./score'], resolve)
           },
           datas: {
             paper_id: item.paper_id,
@@ -133,12 +133,12 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData();
+            modal.close()
+            this.getData()
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

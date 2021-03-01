@@ -4,20 +4,20 @@
       <span class="h-panel-title">添加</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">添加</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="chapter">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="chapter">
         <Row :space="10">
           <Cell :width="12">
             <FormItem label="章节名" prop="name">
-              <input type="text" v-model="chapter.name" />
+              <input v-model="chapter.name" type="text">
             </FormItem>
           </Cell>
           <Cell :width="12">
             <FormItem label="升序" prop="sort">
-              <input type="number" v-model="chapter.sort" />
+              <input v-model="chapter.sort" type="number">
             </FormItem>
           </Cell>
         </Row>
@@ -38,18 +38,18 @@ export default {
       rules: {
         required: ['name', 'sort']
       }
-    };
+    }
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
         R.Extentions.paper.PracticeChapter.Store(this.chapter).then(resp => {
-          HeyUI.$Message.success('成功');
-          this.$emit('success');
-        });
+          HeyUI.$Message.success('成功')
+          this.$emit('success')
+        })
       }
     }
   }
-};
+}
 </script>

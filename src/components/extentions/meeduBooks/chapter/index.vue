@@ -3,22 +3,22 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">章节</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
       <div class="mb-10">
-        <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="addons.meedu_books.book.store" text="添加" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="addons.meedu_books.book.store" text="添加" @click="create()" />
       </div>
       <Table :loading="loading" :datas="datas">
-        <TableItem prop="id" title="ID" :width="100"></TableItem>
-        <TableItem prop="sort" title="升序" :width="100"></TableItem>
-        <TableItem prop="name" title="章节名"></TableItem>
+        <TableItem prop="id" title="ID" :width="100" />
+        <TableItem prop="sort" title="升序" :width="100" />
+        <TableItem prop="name" title="章节名" />
         <TableItem title="操作" align="center" :width="200">
           <template slot-scope="{ data }">
             <ButtonGroup>
-              <p-del-button permission="addons.meedu_books.book.delete" @click="remove(datas, data)"></p-del-button>
-              <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.meedu_books.book.update" text="编辑" @click="edit(data)"></p-button>
+              <p-del-button permission="addons.meedu_books.book.delete" @click="remove(datas, data)" />
+              <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.meedu_books.book.update" text="编辑" @click="edit(data)" />
             </ButtonGroup>
           </template>
         </TableItem>
@@ -33,24 +33,24 @@ export default {
     return {
       datas: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
-      this.getData();
+      this.getData()
     },
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData() {
-      this.loading = true;
+      this.loading = true
       R.Extentions.meeduBooks.Chapter.List({ bid: this.bid }).then(resp => {
-        this.datas = resp.data;
-        this.loading = false;
-      });
+        this.datas = resp.data
+        this.loading = false
+      })
     },
     create() {
       this.$Modal({
@@ -58,7 +58,7 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           },
           datas: {
             bid: this.bid
@@ -67,19 +67,19 @@ export default {
         events: {
           success: (modal, data) => {
             R.Extentions.meeduBooks.Chapter.Store(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.Extentions.meeduBooks.Chapter.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData(true);
-      });
+        HeyUI.$Message.success('成功')
+        this.getData(true)
+      })
     },
     edit(item) {
       this.$Modal({
@@ -87,7 +87,7 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -96,14 +96,14 @@ export default {
         events: {
           success: (modal, data) => {
             R.Extentions.meeduBooks.Chapter.Update(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

@@ -1,8 +1,8 @@
 <template>
-  <i class="h-icon-help" v-tooltip trigger="click" :content="text"></i>
+  <i v-tooltip class="h-icon-help" trigger="click" :content="text" />
 </template>
 <script>
 export default {
   props: ['text']
-};
+}
 </script>

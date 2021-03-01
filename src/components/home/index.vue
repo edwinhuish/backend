@@ -66,23 +66,23 @@ export default {
         laravel_version: '',
         php_version: ''
       }
-    };
+    }
   },
   mounted() {
-    this.getSystemInfo();
-    this.init();
+    this.getSystemInfo()
+    this.init()
   },
   methods: {
     init() {
       R.Dashboard.index().then(resp => {
-        this.index = resp.data;
-      });
+        this.index = resp.data
+      })
     },
     getSystemInfo() {
       R.Dashboard.systemInfo().then(resp => {
-        this.systemInfo = resp.data;
-      });
+        this.systemInfo = resp.data
+      })
     }
   }
-};
+}
 </script>

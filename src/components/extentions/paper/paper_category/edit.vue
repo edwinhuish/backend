@@ -4,25 +4,25 @@
       <span class="h-panel-title">编辑</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="category">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="category">
         <Row :space="10">
           <Cell :width="8">
             <FormItem label="父级" prop="parent_id">
-              <Select v-model="category.parent_id" :datas="categories" keyName="id" titleName="name" :filterable="true"></Select>
+              <Select v-model="category.parent_id" :datas="categories" key-name="id" title-name="name" :filterable="true" />
             </FormItem>
           </Cell>
           <Cell :width="8">
             <FormItem label="分类名" prop="name">
-              <input type="text" v-model="category.name" />
+              <input v-model="category.name" type="text">
             </FormItem>
           </Cell>
           <Cell :width="8">
             <FormItem label="排序" prop="sort">
-              <input type="number" v-model="category.sort" />
+              <input v-model="category.sort" type="number">
             </FormItem>
           </Cell>
         </Row>
@@ -43,23 +43,23 @@ export default {
       rules: {
         required: ['name', 'sort']
       }
-    };
+    }
   },
   mounted() {
     R.Extentions.paper.PaperCategory.Create().then(res => {
-      this.categories = res.data.categories;
-    });
+      this.categories = res.data.categories
+    })
     R.Extentions.paper.PaperCategory.Edit({ id: this.id }).then(res => {
-      this.category = res.data.data;
-    });
+      this.category = res.data.data
+    })
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        this.$emit('success', this.category);
+        this.$emit('success', this.category)
       }
     }
   }
-};
+}
 </script>

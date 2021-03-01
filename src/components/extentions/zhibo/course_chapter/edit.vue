@@ -4,20 +4,20 @@
       <span class="h-panel-title">编辑</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="chapter">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="chapter">
         <Row :space="10">
           <Cell :width="12">
             <FormItem label="章节名" prop="name">
-              <input type="text" v-model="chapter.name" />
+              <input v-model="chapter.name" type="text">
             </FormItem>
           </Cell>
           <Cell :width="12">
             <FormItem label="排序" prop="sort">
-              <input type="number" v-model="chapter.sort" />
+              <input v-model="chapter.sort" type="number">
             </FormItem>
           </Cell>
         </Row>
@@ -38,20 +38,20 @@ export default {
       rules: {
         required: ['name', 'sort']
       }
-    };
+    }
   },
   mounted() {
     R.Extentions.zhibo.CourseChapter.Edit({ id: this.id }).then(res => {
-      this.chapter = res.data;
-    });
+      this.chapter = res.data
+    })
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        this.$emit('success', this.chapter);
+        this.$emit('success', this.chapter)
       }
     }
   }
-};
+}
 </script>

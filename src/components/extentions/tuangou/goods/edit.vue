@@ -4,20 +4,20 @@
       <span class="h-panel-title">编辑</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="goods">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="goods">
         <Row :space="10">
           <Cell :width="6">
             <FormItem prop="goods_title" label="商品名">
-              <input type="text" v-model="goods.goods_title" />
+              <input v-model="goods.goods_title" type="text">
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem prop="original_charge" label="商品原价">
-              <input type="number" v-model="goods.original_charge" min="0" />
+              <input v-model="goods.original_charge" type="number" min="0">
             </FormItem>
           </Cell>
         </Row>
@@ -25,7 +25,7 @@
         <Row :space="10">
           <Cell :width="24">
             <FormItem prop="goods_thumb" label="商品封面">
-              <image-upload v-model="goods.goods_thumb" name="商品封面"></image-upload>
+              <image-upload v-model="goods.goods_thumb" name="商品封面" />
             </FormItem>
           </Cell>
         </Row>
@@ -33,7 +33,7 @@
         <Row :space="10">
           <Cell :width="24">
             <FormItem prop="desc" label="详细介绍">
-              <tinymce-editor v-model="goods.desc"></tinymce-editor>
+              <tinymce-editor v-model="goods.desc" />
             </FormItem>
           </Cell>
         </Row>
@@ -41,27 +41,27 @@
         <Row :space="10">
           <Cell :width="4">
             <FormItem prop="charge" label="价格">
-              <input type="text" v-model="goods.charge" min="0" placeholder="单位：元" />
+              <input v-model="goods.charge" type="text" min="0" placeholder="单位：元">
             </FormItem>
           </Cell>
           <Cell :width="4">
             <FormItem prop="charge" label="人数">
-              <input type="number" v-model="goods.people_num" min="0" placeholder="组团上限" />
+              <input v-model="goods.people_num" type="number" min="0" placeholder="组团上限">
             </FormItem>
           </Cell>
           <Cell :width="4">
             <FormItem prop="charge" label="有效期">
-              <input type="number" v-model="goods.time_limit" min="0" placeholder="单位：天" />
+              <input v-model="goods.time_limit" type="number" min="0" placeholder="单位：天">
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem prop="charge" label="开始时间">
-              <DatePicker v-model="goods.started_at" type="datetime"></DatePicker>
+              <DatePicker v-model="goods.started_at" type="datetime" />
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem prop="charge" label="结束时间">
-              <DatePicker v-model="goods.ended_at" type="datetime"></DatePicker>
+              <DatePicker v-model="goods.ended_at" type="datetime" />
             </FormItem>
           </Cell>
         </Row>
@@ -69,7 +69,7 @@
         <Row :space="10">
           <Cell :width="24">
             <FormItem prop="page_title" label="页面标题">
-              <input type="text" v-model="goods.page_title" placeholder="pc或者手机打开团购页面显示的标题" />
+              <input v-model="goods.page_title" type="text" placeholder="pc或者手机打开团购页面显示的标题">
             </FormItem>
           </Cell>
         </Row>
@@ -78,7 +78,7 @@
   </div>
 </template>
 <script>
-import TinymceEditor from '@/components/common/tinymce';
+import TinymceEditor from '@/components/common/tinymce'
 
 export default {
   components: { TinymceEditor },
@@ -115,23 +115,23 @@ export default {
       },
       goodsList: [],
       types: []
-    };
+    }
   },
   mounted() {
     R.Extentions.tuanGou.Goods.Edit({ id: this.id }).then(res => {
-      this.goods = res.data.data;
-    });
+      this.goods = res.data.data
+    })
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
         R.Extentions.tuanGou.Goods.Update(this.goods).then(resp => {
-          HeyUI.$Message.success('成功');
-          this.$emit('success');
-        });
+          HeyUI.$Message.success('成功')
+          this.$emit('success')
+        })
       }
     }
   }
-};
+}
 </script>

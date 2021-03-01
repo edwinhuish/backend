@@ -13,18 +13,18 @@
 <template>
   <div>
     <div class="h-input-group">
-      <input type="text" v-model="vid" placeholder="请点击右侧的上传按钮或者直接输入视频文件fileId" />
+      <input v-model="vid" type="text" placeholder="请点击右侧的上传按钮或者直接输入视频文件fileId">
       <Button color="primary" @click="selectVideo">
-        <i class="h-icon-upload"></i> 上传视频<span v-show="process">，进度：{{ process }}</span>
+        <i class="h-icon-upload" /> 上传视频<span v-show="process">，进度：{{ process }}</span>
       </Button>
     </div>
     <div class="alert-info">请上传MP4格式视频</div>
-    <input type="file" ref="tencentfile" v-show="false" @change="fileChange" />
+    <input v-show="false" ref="tencentfile" type="file" @change="fileChange">
   </div>
 </template>
 
 <script>
-import TcVod from 'vod-js-sdk-v6';
+import TcVod from 'vod-js-sdk-v6'
 
 export default {
   props: {
@@ -39,35 +39,43 @@ export default {
       process: '',
       uploader: null,
       status: false
-    };
+    }
+  },
+  watch: {
+    value(newVal, oldVal) {
+      this.vid = newVal
+    },
+    vid(newVal, oldVal) {
+      this.$emit('input', newVal)
+    }
   },
   methods: {
     fileChange(event) {
-      var files = event.target.files;
+      var files = event.target.files
       if (files.length === 0) {
-        return;
+        return
       }
-      this.status = true;
-      this.uploadFile(files[0]);
+      this.status = true
+      this.uploadFile(files[0])
     },
     uploadFile(videoFile) {
       const tcVod = new TcVod({
-        getSignature: function () {
+        getSignature: function() {
           return R.VideoUpload.TencentAuthToken().then(response => {
             if (response.status !== 0) {
-              HeyUI.$Message.error(response.message);
-              return null;
+              HeyUI.$Message.error(response.message)
+              return null
             }
-            return response.data.signature;
-          });
+            return response.data.signature
+          })
         }
-      });
+      })
       const uploader = tcVod.upload({
         mediaFile: videoFile
-      });
+      })
       uploader.on('media_progress', info => {
-        this.process = parseInt(info.percent * 100) + '%';
-      });
+        this.process = parseInt(info.percent * 100) + '%'
+      })
 
       // 回调结果说明
       // type doneResult = {
@@ -82,30 +90,22 @@ export default {
       uploader
         .done()
         .then(doneResult => {
-          console.log(doneResult);
-          this.process = '上传成功';
-          this.vid = doneResult.fileId;
-          this.status = false;
+          console.log(doneResult)
+          this.process = '上传成功'
+          this.vid = doneResult.fileId
+          this.status = false
         })
-        .catch(function (err) {
-          console.log(err);
-          HeyUI.$Message.error('上传错误');
-        });
+        .catch(function(err) {
+          console.log(err)
+          HeyUI.$Message.error('上传错误')
+        })
     },
     selectVideo() {
       if (this.status) {
-        return;
+        return
       }
-      this.$refs.tencentfile.click();
-    }
-  },
-  watch: {
-    value(newVal, oldVal) {
-      this.vid = newVal;
-    },
-    vid(newVal, oldVal) {
-      this.$emit('input', newVal);
+      this.$refs.tencentfile.click()
     }
   }
-};
+}
 </script>

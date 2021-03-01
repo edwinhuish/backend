@@ -4,22 +4,22 @@
       <span class="h-panel-title">添加</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">添加</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="poster">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="poster">
         <FormItem label="升序" prop="sort">
-          <input type="number" v-model="poster.sort" />
+          <input v-model="poster.sort" type="number">
         </FormItem>
         <FormItem label="海报名" prop="name">
-          <input type="text" v-model="poster.name" />
+          <input v-model="poster.name" type="text">
         </FormItem>
         <FormItem label="海报" prop="thumb">
-          <image-upload v-model="poster.thumb" name="海报"></image-upload>
+          <image-upload v-model="poster.thumb" name="海报" />
         </FormItem>
         <FormItem label="参数" prop="config">
-          <textarea v-model="poster.config" rows="3"></textarea>
+          <textarea v-model="poster.config" rows="3" />
         </FormItem>
       </Form>
     </div>
@@ -38,15 +38,15 @@ export default {
       rules: {
         required: ['name', 'sort', 'thumb', 'config']
       }
-    };
+    }
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        this.$emit('success', this.poster);
+        this.$emit('success', this.poster)
       }
     }
   }
-};
+}
 </script>

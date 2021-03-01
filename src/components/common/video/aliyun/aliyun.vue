@@ -13,13 +13,13 @@
 <template>
   <div>
     <div class="h-input-group">
-      <input type="text" v-model="vid" placeholder="请点击右侧的上传按钮或者直接输入视频文件fileId" />
+      <input v-model="vid" type="text" placeholder="请点击右侧的上传按钮或者直接输入视频文件fileId">
       <Button color="primary" @click="selectVideo">
-        <i class="h-icon-upload"></i> 上传视频<span v-show="process">，进度：{{ process }}</span>
+        <i class="h-icon-upload" /> 上传视频<span v-show="process">，进度：{{ process }}</span>
       </Button>
     </div>
     <div class="alert-info">请上传MP4格式视频</div>
-    <input type="file" ref="aliyunfile" v-show="false" @change="fileChange" />
+    <input v-show="false" ref="aliyunfile" type="file" @change="fileChange">
   </div>
 </template>
 
@@ -29,6 +29,22 @@ export default {
     value: {
       type: String,
       default: ''
+    }
+  },
+  data() {
+    return {
+      vid: this.value,
+      process: '',
+      aliyun: null,
+      status: false
+    }
+  },
+  watch: {
+    value(newVal, oldVal) {
+      this.vid = newVal
+    },
+    vid(newVal, oldVal) {
+      this.$emit('input', newVal)
     }
   },
   mounted() {
@@ -44,37 +60,37 @@ export default {
             video_id: uploadInfo.videoId
           }).then(res => {
             if (res.status !== 0) {
-              HeyUI.$Message.error(res.message);
+              HeyUI.$Message.error(res.message)
             } else {
-              this.aliyun.setUploadAuthAndAddress(uploadInfo, res.data.upload_auth, res.data.upload_address, res.data.video_id);
+              this.aliyun.setUploadAuthAndAddress(uploadInfo, res.data.upload_auth, res.data.upload_address, res.data.video_id)
             }
-          });
+          })
         } else {
           R.VideoUpload.AliyunAuthTokenCreate({
             title: uploadInfo.file.name,
             filename: uploadInfo.file.name
           }).then(res => {
             if (res.status !== 0) {
-              HeyUI.$Message.error(res.message);
+              HeyUI.$Message.error(res.message)
             } else {
-              this.aliyun.setUploadAuthAndAddress(uploadInfo, res.data.upload_auth, res.data.upload_address, res.data.video_id);
+              this.aliyun.setUploadAuthAndAddress(uploadInfo, res.data.upload_auth, res.data.upload_address, res.data.video_id)
             }
-          });
+          })
         }
       },
       onUploadSucceed: uploadInfo => {
-        console.log(uploadInfo);
-        this.vid = uploadInfo.videoId;
-        this.process = '上传成功';
-        this.status = false;
+        console.log(uploadInfo)
+        this.vid = uploadInfo.videoId
+        this.process = '上传成功'
+        this.status = false
         // console.log("onUploadSucceed: " + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
       },
       onUploadFailed: (uploadInfo, code, message) => {
         // console.log("onUploadFailed: file:" + uploadInfo.file.name + ",code:" + code + ", message:" + message);
-        this.process = '上传失败:' + message + ':code:' + code;
+        this.process = '上传失败:' + message + ':code:' + code
       },
       onUploadProgress: (uploadInfo, totalSize, loadedPercent) => {
-        this.process = Math.ceil(loadedPercent * 100) + '%';
+        this.process = Math.ceil(loadedPercent * 100) + '%'
         // console.log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math.ceil(loadedPercent * 100) + "%");
       },
       onUploadTokenExpired: uploadInfo => {
@@ -82,47 +98,31 @@ export default {
           video_id: uploadInfo.videoId
         }).then(res => {
           if (res.data.code === 500) {
-            HeyUI.$Message.error(res.data.message);
+            HeyUI.$Message.error(res.data.message)
           } else {
-            this.aliyun.resumeUploadWithAuth(res.data.upload_auth);
+            this.aliyun.resumeUploadWithAuth(res.data.upload_auth)
           }
-        });
+        })
         // uploader.resumeUploadWithAuth(uploadAuth);
       },
       onUploadEnd: uploadInfo => {}
-    });
-  },
-  data() {
-    return {
-      vid: this.value,
-      process: '',
-      aliyun: null,
-      status: false
-    };
+    })
   },
   methods: {
     selectVideo() {
       if (this.status) {
-        return;
+        return
       }
-      this.$refs.aliyunfile.click();
+      this.$refs.aliyunfile.click()
     },
     fileChange(event) {
       if (event.target.files.length === 0) {
-        return;
+        return
       }
-      this.status = true;
-      this.aliyun.addFile(event.target.files[0], null, null, null, '');
-      this.aliyun.startUpload();
-    }
-  },
-  watch: {
-    value(newVal, oldVal) {
-      this.vid = newVal;
-    },
-    vid(newVal, oldVal) {
-      this.$emit('input', newVal);
+      this.status = true
+      this.aliyun.addFile(event.target.files[0], null, null, null, '')
+      this.aliyun.startUpload()
     }
   }
-};
+}
 </script>

@@ -8,22 +8,22 @@
           <Button class="h-btn h-btn-primary" icon="icon-arrow-left" @click="back()">返回列表</Button>
         </p>
 
-        <Form v-width="400" mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :labelWidth="110" :rules="rules" :model="permission">
+        <Form ref="form" v-width="400" mode="block" :valid-on-change="true" :show-error-tip="true" :label-width="110" :rules="rules" :model="permission">
           <FormItem label="角色名" prop="display_name">
             <template v-slot:label>角色名</template>
-            <input type="text" v-model="permission.display_name" />
+            <input v-model="permission.display_name" type="text">
           </FormItem>
           <FormItem label="描述" prop="description">
             <template v-slot:label>描述</template>
-            <input type="text" v-model="permission.description" />
+            <input v-model="permission.description" type="text">
           </FormItem>
           <FormItem label="Method" prop="method">
             <template v-slot:label>Method</template>
-            <Select v-model="permission.method" :multiple="true" :datas="methods"></Select>
+            <Select v-model="permission.method" :multiple="true" :datas="methods" />
           </FormItem>
           <FormItem label="URL" prop="url">
             <template v-slot:label>URL</template>
-            <input type="text" v-model="permission.url" />
+            <input v-model="permission.url" type="text">
           </FormItem>
           <FormItem>
             <Button color="primary" @click="create">保存</Button>
@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import Permission from 'model/AdministratorPermission';
+import Permission from 'model/AdministratorPermission'
 
 export default {
   props: ['id'],
@@ -62,30 +62,30 @@ export default {
           key: 'DELETE'
         }
       ]
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
       R.AdministratorPermission.Edit({ id: this.id }).then(resp => {
-        this.permission = resp.data;
-        this.permission.method = this.permission.method.split('|');
-      });
+        this.permission = resp.data
+        this.permission.method = this.permission.method.split('|')
+      })
     },
     back() {
-      this.$router.push({ name: 'AdministratorPermission' });
+      this.$router.push({ name: 'AdministratorPermission' })
     },
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
         R.AdministratorPermission.Update(this.permission).then(resp => {
-          HeyUI.$Message.success('成功');
-          this.$router.push({ name: 'AdministratorPermission' });
-        });
+          HeyUI.$Message.success('成功')
+          this.$router.push({ name: 'AdministratorPermission' })
+        })
       }
     }
   }
-};
+}
 </script>

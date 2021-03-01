@@ -4,21 +4,21 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">会员每日销售数量</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
-        <Form :labelWidth="110">
+        <Form :label-width="110">
           <Row :space="10">
             <Cell :width="12">
               <FormItem label="会员">
-                <Select v-model="role_id" :datas="roles" keyName="id" titleName="name" :filterable="true"></Select>
+                <Select v-model="role_id" :datas="roles" key-name="id" title-name="name" :filterable="true" />
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="时间范围">
-                <DateRangePicker v-model="daterange"></DateRangePicker>
+                <DateRangePicker v-model="daterange" />
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -30,13 +30,13 @@
         </Form>
       </div>
       <div class="float-box mb-10">
-        <line-chart :height="200" :chart-data="data"></line-chart>
+        <line-chart :height="200" :chart-data="data" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import LineChart from 'components/common/chartjs/line';
+import LineChart from 'components/common/chartjs/line'
 
 export default {
   components: {
@@ -52,26 +52,26 @@ export default {
       },
       role_id: null,
       roles: []
-    };
+    }
   },
   mounted() {
     R.Role.All().then(res => {
-      this.roles = res.data.data;
-    });
-    this.getData();
+      this.roles = res.data.data
+    })
+    this.getData()
   },
   methods: {
     getData() {
-      let data = {};
+      const data = {}
       if (this.daterange.start !== null) {
-        data.start_at = this.daterange.start;
+        data.start_at = this.daterange.start
       }
       if (this.daterange.end !== null) {
-        data.end_at = this.daterange.end;
+        data.end_at = this.daterange.end
       }
-      data.role_id = this.role_id;
+      data.role_id = this.role_id
       R.Statistic.roleSell(data).then(resp => {
-        let data = {
+        const data = {
           labels: resp.data.labels,
           datasets: [
             {
@@ -79,10 +79,10 @@ export default {
               data: resp.data.dataset
             }
           ]
-        };
-        this.data = data;
-      });
+        }
+        this.data = data
+      })
     }
   }
-};
+}
 </script>

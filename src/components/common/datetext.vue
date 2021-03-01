@@ -1,5 +1,5 @@
 <template>
-  <div class="date-text">{{ day }} <br />{{ hour }}</div>
+  <div class="date-text">{{ day }} <br>{{ hour }}</div>
 </template>
 <script>
 export default {
@@ -7,18 +7,18 @@ export default {
   computed: {
     day() {
       if (this.date === null) {
-        return '';
+        return ''
       }
-      return this.date.split(' ')[0];
+      return this.date.split(' ')[0]
     },
     hour() {
       if (this.date === null) {
-        return '';
+        return ''
       }
-      return this.date.split(' ')[1];
+      return this.date.split(' ')[1]
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>

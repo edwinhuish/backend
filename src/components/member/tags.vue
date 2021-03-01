@@ -4,13 +4,13 @@
       <span class="h-panel-title">标签</span>
       <div class="h-panel-right">
         <Button color="primary" @click="update">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form">
+      <Form ref="form" mode="block">
         <FormItem label="标签">
-          <TagInput v-model="user.tags" :limit="5" :wordlimit="20"></TagInput>
+          <TagInput v-model="user.tags" :limit="5" :wordlimit="20" />
         </FormItem>
       </Form>
     </div>
@@ -25,21 +25,21 @@ export default {
         id: this.id,
         tags: []
       }
-    };
+    }
   },
   mounted() {
-    let tags = [];
+    const tags = []
     this.tags.forEach(item => {
-      tags.push(item.name);
-    });
-    this.user.tags = tags;
+      tags.push(item.name)
+    })
+    this.user.tags = tags
   },
   methods: {
     update() {
       R.Member.Tags(this.user).then(res => {
-        this.$emit('success', this.user);
-      });
+        this.$emit('success', this.user)
+      })
     }
   }
-};
+}
 </script>

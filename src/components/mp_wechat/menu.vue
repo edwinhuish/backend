@@ -67,55 +67,53 @@
         <Cell :width="10">
           <div class="menu-box">
             <div class="menus">
-              <div class="item" v-for="(menu, index) in menus" :key="'menu'+index">
-                <span @click="editMenu(menu, index, null)">{{menu.name}}</span>
+              <div v-for="(menu, index) in menus" :key="'menu' + index" class="item">
+                <span @click="editMenu(menu, index, null)">{{ menu.name }}</span>
                 <div class="children">
-                  <div
-                    class="add-children-button children-item"
-                    v-if="menu.sub_button.list.length < 5"
-                    @click="addChildren(index)"
-                  >
-                    <i class="h-icon-plus"></i>
+                  <div v-if="menu.sub_button.list.length < 5" class="add-children-button children-item" @click="addChildren(index)">
+                    <i class="h-icon-plus" />
                   </div>
                   <div
+                    v-for="(childrenItem, childrenIndex) in menu.sub_button.list"
+                    :key="'children-' + index + '-' + childrenIndex"
                     class="childrem-item"
                     @click="editMenu(childrenItem, index, childrenIndex)"
-                    v-for="(childrenItem, childrenIndex) in menu.sub_button.list"
-                    :key="'children-'+index+'-'+childrenIndex"
-                  >{{childrenItem.name}}</div>
+                  >
+                    {{ childrenItem.name }}
+                  </div>
                 </div>
               </div>
-              <div class="add-button item" @click="addMenu" v-if="menus.length < 3">
-                <i class="h-icon-plus"></i>
+              <div v-if="menus.length < 3" class="add-button item" @click="addMenu">
+                <i class="h-icon-plus" />
               </div>
             </div>
           </div>
         </Cell>
         <Cell :width="10">
-          <Form mode="block" v-if="position.one !== null">
+          <Form v-if="position.one !== null" mode="block">
             <FormItem label="按钮类型">
-              <Select v-model="menu.type" :datas="types" keyName="id" titleName="name"></Select>
+              <Select v-model="menu.type" :datas="types" key-name="id" title-name="name" />
             </FormItem>
             <FormItem label="菜单名">
-              <input type="text" v-model="menu.name" />
+              <input v-model="menu.name" type="text">
             </FormItem>
 
             <template v-if="menu.type === 'view'">
               <FormItem label="打开网址">
-                <input type="text" v-model="menu.url" />
+                <input v-model="menu.url" type="text">
               </FormItem>
             </template>
             <template v-else-if="menu.type === 'click'">
               <FormItem label="EventKey">
-                <input type="text" v-model="menu.key" />
+                <input v-model="menu.key" type="text">
               </FormItem>
             </template>
             <template v-else-if="menu.type === 'miniprogram'">
               <FormItem label="小程序AppId">
-                <input type="text" v-model="menu.appid" />
+                <input v-model="menu.appid" type="text">
               </FormItem>
               <FormItem label="小程序Path">
-                <input type="text" v-model="menu.pagepath" />
+                <input v-model="menu.pagepath" type="text">
               </FormItem>
             </template>
 
@@ -130,10 +128,10 @@
             <warn text="注意，微信公众号菜单的更新和删除均有缓存，操作后的请等待10分后进行验证。" />
           </div>
           <div class="float-box mb-10">
-            <p-del-button permission="mpWechat.menu.update" text="同步到微信公众号" @click="sync"></p-del-button>
+            <p-del-button permission="mpWechat.menu.update" text="同步到微信公众号" @click="sync" />
           </div>
           <div class="float-box mb-10">
-            <p-del-button permission="mpWechat.menu.update" text="清空菜单" @click="empty"></p-del-button>
+            <p-del-button permission="mpWechat.menu.update" text="清空菜单" @click="empty" />
           </div>
         </Cell>
       </Row>
@@ -171,185 +169,185 @@ export default {
         appid: null,
         pagepath: null
       }
-    };
+    }
   },
   mounted() {
-    this.getMenu();
+    this.getMenu()
   },
   methods: {
     getMenu() {
       R.MpWecaht.Menu().then(res => {
         if (typeof res.data.menu.selfmenu_info.button !== 'undefined') {
-          let menus = res.data.menu.selfmenu_info.button;
+          const menus = res.data.menu.selfmenu_info.button
           for (let i = 0; i < menus.length; i++) {
             if (typeof menus[i].sub_button === 'undefined') {
               menus[i].sub_button = {
                 list: []
-              };
+              }
             }
           }
-          this.menus = menus;
+          this.menus = menus
         }
-      });
+      })
     },
     addMenu() {
       if (this.menus.length >= 3) {
-        HeyUI.$Message.warn('一级菜单最多三个');
-        return;
+        HeyUI.$Message.warn('一级菜单最多三个')
+        return
       }
-      let menu = {
+      const menu = {
         name: '请修改',
         type: null,
         sub_button: {
           list: []
         }
-      };
-      this.menus.push(menu);
+      }
+      this.menus.push(menu)
 
-      this.position.one = this.menus.length - 1;
-      this.position.two = null;
-      this.menu = menu;
+      this.position.one = this.menus.length - 1
+      this.position.two = null
+      this.menu = menu
     },
     editMenu(item, one, two) {
-      this.position.one = one;
-      this.position.two = two;
+      this.position.one = one
+      this.position.two = two
 
-      let menu = {
+      const menu = {
         type: item.type,
         name: item.name,
         sub_button: {
           list: []
         }
-      };
+      }
       if (typeof item.sub_button !== 'undefined') {
-        menu.sub_button = item.sub_button;
+        menu.sub_button = item.sub_button
       }
       if (menu.type === 'click') {
-        menu.key = null;
+        menu.key = null
       } else if (menu.type === 'miniprogram') {
-        menu.appid = null;
-        menu.pagepath = null;
+        menu.appid = null
+        menu.pagepath = null
       } else if (menu.type === 'view') {
-        menu.url = item.url;
+        menu.url = item.url
       }
-      this.menu = menu;
+      this.menu = menu
     },
     save() {
-      console.log(this.position);
+      console.log(this.position)
       if (this.position.one === null) {
-        HeyUI.$Message.warn('数据错误');
-        return;
+        HeyUI.$Message.warn('数据错误')
+        return
       }
 
       if (this.position.two === null || typeof this.position.two === 'undefined') {
-        Object.assign(this.menus[this.position.one], this.menu);
+        Object.assign(this.menus[this.position.one], this.menu)
       } else {
-        Object.assign(this.menus[this.position.one]['sub_button']['list'][this.position.two], this.menu);
+        Object.assign(this.menus[this.position.one]['sub_button']['list'][this.position.two], this.menu)
       }
     },
     deleteMenu() {
       if (this.position.one === null) {
-        HeyUI.$Message.warn('数据错误');
-        return;
+        HeyUI.$Message.warn('数据错误')
+        return
       }
 
       if (this.position.two === null) {
-        this.menus.splice(this.position.one, 1);
+        this.menus.splice(this.position.one, 1)
       } else {
-        this.menus[this.position.one]['sub_button']['list'].splice(this.position.two, 1);
+        this.menus[this.position.one]['sub_button']['list'].splice(this.position.two, 1)
       }
 
-      this.menu = {};
-      this.position.one = null;
-      this.position.two = null;
+      this.menu = {}
+      this.position.one = null
+      this.position.two = null
     },
     addChildren(index) {
       if (typeof this.menus[index].sub_button === 'undefined') {
-        this.menus[index].sub_button = { list: [] };
+        this.menus[index].sub_button = { list: [] }
       }
       if (this.menus[index].sub_button.list.length >= 5) {
-        HeyUI.$Message.warn('二级菜单最多添加5个');
-        return;
+        HeyUI.$Message.warn('二级菜单最多添加5个')
+        return
       }
-      let menu = {
+      const menu = {
         name: '请修改',
         type: null,
         appid: null,
         url: null,
         pagepath: null
-      };
-      this.menus[index].sub_button.list.push(menu);
-      this.position.one = index;
-      this.position.two = this.menus[index].sub_button.list.length - 1;
-      this.menu = menu;
+      }
+      this.menus[index].sub_button.list.push(menu)
+      this.position.one = index
+      this.position.two = this.menus[index].sub_button.list.length - 1
+      this.menu = menu
     },
     sync() {
-      let data = {
+      const data = {
         button: []
-      };
+      }
       if (this.menus.length === 0) {
-        HeyUI.$Message.warn('菜单为空');
-        return;
+        HeyUI.$Message.warn('菜单为空')
+        return
       }
 
       // 复制一个新的对象[否则下面的操作将会影响到this.menus]
-      var menus = JSON.parse(JSON.stringify(this.menus));
+      var menus = JSON.parse(JSON.stringify(this.menus))
       for (let i = 0; i < menus.length; i++) {
-        let menu = menus[i];
+        let menu = menus[i]
         if (menu.type === null) {
-          HeyUI.$Message.warn(`菜单${menu.name}未选择类型`);
-          return;
+          HeyUI.$Message.warn(`菜单${menu.name}未选择类型`)
+          return
         }
         if (typeof menu.sub_button !== 'undefined') {
           // 有子菜单
-          let children = [];
+          const children = []
           for (let j = 0; j < menu.sub_button.list.length; j++) {
-            let childrenMenu = menu.sub_button.list[j];
-            let newChildrenMenu = {
+            const childrenMenu = menu.sub_button.list[j]
+            const newChildrenMenu = {
               name: childrenMenu.name,
               type: childrenMenu.type
-            };
+            }
             if (newChildrenMenu.type === null) {
-              HeyUI.$Message.warn(`菜单${newChildrenMenu.name}未选择类型`);
-              return;
+              HeyUI.$Message.warn(`菜单${newChildrenMenu.name}未选择类型`)
+              return
             }
             if (childrenMenu.type === 'view') {
-              newChildrenMenu.url = childrenMenu.url;
+              newChildrenMenu.url = childrenMenu.url
             } else if (childrenMenu.type === 'click') {
-              newChildrenMenu.key = childrenMenu.key;
+              newChildrenMenu.key = childrenMenu.key
             } else if (childrenMenu.type === 'miniprogram') {
-              newChildrenMenu.appid = childrenMenu.appid;
-              newChildrenMenu.pagepath = childrenMenu.pagepath;
+              newChildrenMenu.appid = childrenMenu.appid
+              newChildrenMenu.pagepath = childrenMenu.pagepath
             }
-            children.push(newChildrenMenu);
+            children.push(newChildrenMenu)
           }
           // 删除
-          delete menu.sub_button;
+          delete menu.sub_button
           if (children.length > 0) {
-            let newMenu = {
+            const newMenu = {
               name: menu.name,
               sub_button: children
-            };
-            menu = newMenu;
+            }
+            menu = newMenu
           }
         }
-        data.button.push(menu);
+        data.button.push(menu)
       }
 
       R.MpWecaht.MenuUpdate({ menu: data }).then(() => {
-        HeyUI.$Message.success('菜单更新成功');
-        this.position.one = null;
-        this.position.two = null;
-        this.getMenu();
-      });
+        HeyUI.$Message.success('菜单更新成功')
+        this.position.one = null
+        this.position.two = null
+        this.getMenu()
+      })
     },
     empty() {
       R.MpWecaht.MenuEmpty().then(() => {
-        this.position.one = null;
-        this.position.two = null;
-        HeyUI.$Message.success('微信公众号菜单已清空');
-      });
+        this.position.one = null
+        this.position.two = null
+        HeyUI.$Message.success('微信公众号菜单已清空')
+      })
     }
   }
-};
+}
 </script>

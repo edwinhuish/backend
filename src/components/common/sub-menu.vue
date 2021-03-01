@@ -1,4 +1,4 @@
-<style lang='less'>
+<style lang="less">
 .sub-menu-vue {
   .h-menu {
     font-size: 14px;
@@ -7,7 +7,7 @@
 </style>
 <template>
   <div class="sub-menu-vue">
-    <Menu :datas="datas" className="h-menu-white" @click="trigger" ref='menu'></Menu>
+    <Menu ref="menu" :datas="datas" class-name="h-menu-white" @click="trigger" />
   </div>
 </template>
 <script>
@@ -16,29 +16,26 @@ export default {
     datas: Array
   },
   data() {
-    return {
-    };
+    return {}
   },
-  mounted() {
-    this.menuSelect();
-  },
+  computed: {},
   watch: {
     $route() {
-      this.menuSelect();
+      this.menuSelect()
     }
+  },
+  mounted() {
+    this.menuSelect()
   },
   methods: {
     menuSelect() {
       if (this.$route.name) {
-        this.$refs.menu.select(this.$route.name);
+        this.$refs.menu.select(this.$route.name)
       }
     },
     trigger(data) {
-      this.$router.push({ name: data.key });
+      this.$router.push({ name: data.key })
     }
-  },
-  computed: {
-
   }
-};
+}
 </script>

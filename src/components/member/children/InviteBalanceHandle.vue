@@ -4,16 +4,16 @@
       <span class="h-panel-title">提现处理</span>
       <div class="h-panel-right">
         <Button color="primary" @click="confirm">确认</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form ref="form" :validOnChange="true" :showErrorTip="true" mode="block" :rules="rules" :model="form">
+      <Form ref="form" :valid-on-change="true" :show-error-tip="true" mode="block" :rules="rules" :model="form">
         <FormItem label="状态" prop="status">
-          <Select v-model="form.status" :datas="statusRows" keyName="id" titleName="name"></Select>
+          <Select v-model="form.status" :datas="statusRows" key-name="id" title-name="name" />
         </FormItem>
         <FormItem label="备注" prop="remark">
-          <textarea v-model="form.remark"></textarea>
+          <textarea v-model="form.remark" />
         </FormItem>
       </Form>
     </div>
@@ -41,19 +41,19 @@ export default {
       rules: {
         required: ['name', 'remark']
       }
-    };
+    }
   },
   methods: {
     confirm() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (!validResult.result) {
-        return;
+        return
       }
       R.Member.CreateInviteBalanceWithdrawOrder({ ids: this.ids, status: this.form.status, remark: this.form.remark }).then(resp => {
-        HeyUI.$Message.success('处理成功');
-        this.$emit('success');
-      });
+        HeyUI.$Message.success('处理成功')
+        this.$emit('success')
+      })
     }
   }
-};
+}
 </script>

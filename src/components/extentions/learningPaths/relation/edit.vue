@@ -4,24 +4,24 @@
       <span class="h-panel-title">编辑</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="relation">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="relation">
         <template v-if="relation.other_id">
           <FormItem label="课程名" prop="name">
             <template v-slot:label>课程名</template>
-            <input type="text" v-model="relation.name" />
+            <input v-model="relation.name" type="text">
           </FormItem>
           <FormItem label="课程封面" prop="thumb">
             <template v-slot:label>课程封面</template>
-            <image-upload v-model="relation.thumb" name="课程封面"></image-upload>
+            <image-upload v-model="relation.thumb" name="课程封面" />
           </FormItem>
           <FormItem label="课程价格" prop="charge">
             <template v-slot:label>课程价格</template>
-            <div class="h-input-group" v-width="200">
-              <input type="text" v-model="relation.charge" />
+            <div v-width="200" class="h-input-group">
+              <input v-model="relation.charge" type="text">
               <span class="h-input-addon">元</span>
             </div>
           </FormItem>
@@ -29,8 +29,8 @@
 
         <FormItem label="升序" prop="sort">
           <template v-slot:label>升序</template>
-          <div class="h-input-group" v-width="200">
-            <input type="text" v-model="relation.sort" />
+          <div v-width="200" class="h-input-group">
+            <input v-model="relation.sort" type="text">
           </div>
         </FormItem>
       </Form>
@@ -55,22 +55,22 @@ export default {
       },
       types: [],
       lists: []
-    };
+    }
   },
   mounted() {
     R.Extentions.learningPaths.Relation.Edit({ id: this.id }).then(resp => {
-      this.relation = resp.data.data;
-    });
+      this.relation = resp.data.data
+    })
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
         R.Extentions.learningPaths.Relation.Update(this.relation).then(() => {
-          this.$emit('success');
-        });
+          this.$emit('success')
+        })
       }
     }
   }
-};
+}
 </script>

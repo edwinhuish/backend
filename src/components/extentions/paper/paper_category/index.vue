@@ -3,7 +3,7 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">分类</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -12,9 +12,9 @@
       </div>
       <div class="float-box mb-10">
         <Table ref="table" :loading="loading" :datas="datas">
-          <TableItem prop="id" title="ID" :width="80"></TableItem>
-          <TableItem prop="sort" title="升序" :width="80"></TableItem>
-          <TableItem prop="name" title="分类名" treeOpener></TableItem>
+          <TableItem prop="id" title="ID" :width="80" />
+          <TableItem prop="sort" title="升序" :width="80" />
+          <TableItem prop="name" title="分类名" tree-opener />
           <TableItem title="操作" align="center" :width="200">
             <template slot-scope="{ data }">
               <Poptip content="确认删除？" @confirm="remove(datas, data)">
@@ -34,24 +34,24 @@ export default {
     return {
       datas: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.getData();
+    this.getData()
   },
   methods: {
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData() {
-      this.loading = true;
+      this.loading = true
       R.Extentions.paper.PaperCategory.List(this.pagination).then(resp => {
-        this.datas = resp.data.data.data;
-        this.loading = false;
+        this.datas = resp.data.data.data
+        this.loading = false
         setTimeout(() => {
-          this.$refs.table.expandAll();
-        }, 500);
-      });
+          this.$refs.table.expandAll()
+        }, 500)
+      })
     },
     create() {
       this.$Modal({
@@ -59,25 +59,25 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           }
         },
         events: {
           success: (modal, data) => {
             R.Extentions.paper.PaperCategory.Store(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.Extentions.paper.PaperCategory.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData(true);
-      });
+        HeyUI.$Message.success('成功')
+        this.getData(true)
+      })
     },
     edit(item) {
       this.$Modal({
@@ -85,7 +85,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -94,14 +94,14 @@ export default {
         events: {
           success: (modal, data) => {
             R.Extentions.paper.PaperCategory.Update(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

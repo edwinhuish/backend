@@ -6,27 +6,27 @@ export default {
   props: {
     value: {
       type: Number,
-      default: ''
+      default: 0
     }
   },
   data() {
     return {
       user_id: this.value,
       nickname: null
-    };
+    }
   },
-  mounted() {},
   watch: {
     value(newVal, oldVal) {
-      this.user_id = newVal;
+      this.user_id = newVal
       if (!this.user_id) {
-        this.nickname = null;
+        this.nickname = null
       }
     },
     user_id(newVal, oldVal) {
-      this.$emit('input', newVal);
+      this.$emit('input', newVal)
     }
   },
+  mounted() {},
   methods: {
     showModal() {
       this.$Modal({
@@ -34,7 +34,7 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./modal'], resolve);
+            require(['./modal'], resolve)
           },
           datas: {
             id: this.user_id
@@ -42,13 +42,13 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.user_id = data.id;
-            this.nickname = data.nickname;
+            modal.close()
+            this.user_id = data.id
+            this.nickname = data.nickname
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

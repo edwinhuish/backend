@@ -6,22 +6,22 @@
         <span class="h-panel-title">编辑</span>
         <div class="h-panel-right">
           <Button color="primary" @click="create">保存</Button>
-          <Button @click="$emit('close')" :text="true">取消</Button>
+          <Button :text="true" @click="$emit('close')">取消</Button>
         </div>
       </div>
       <div class="h-panel-body">
-        <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :labelWidth="110" :rules="rules" :model="category">
+        <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :label-width="110" :rules="rules" :model="category">
           <FormItem label="升序" prop="sort">
             <template v-slot:label>升序</template>
-            <input type="number" v-model="category.sort" />
+            <input v-model="category.sort" type="number">
           </FormItem>
           <FormItem label="分类名" prop="name">
             <template v-slot:label>分类名</template>
-            <input type="text" v-model="category.name" />
+            <input v-model="category.name" type="text">
           </FormItem>
           <FormItem label="显示" prop="is_show">
             <template v-slot:label>显示</template>
-            <h-switch v-model="category.is_show" :trueValue="1" :falseValue="0"></h-switch>
+            <h-switch v-model="category.is_show" :true-value="1" :false-value="0" />
           </FormItem>
         </Form>
       </div>
@@ -42,23 +42,23 @@ export default {
       rules: {
         required: ['sort', 'name', 'is_show']
       }
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
       R.CourseCategory.Edit({ id: this.id }).then(resp => {
-        this.category = resp.data;
-      });
+        this.category = resp.data
+      })
     },
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        this.$emit('success', this.category);
+        this.$emit('success', this.category)
       }
     }
   }
-};
+}
 </script>

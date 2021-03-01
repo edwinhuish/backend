@@ -110,7 +110,7 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">指定试题</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -131,21 +131,21 @@
           <Cell :width="12">
             <div class="paper-quesiton">
               <div class="title">已选择{{ data.length }}试题(点击试题可删除)</div>
-              <div class="paper-item" @click="deleteQuestion(question)" v-for="question in data" :key="question.id">
+              <div v-for="question in data" :key="question.id" class="paper-item" @click="deleteQuestion(question)">
                 <div class="info">ID:{{ question.id }}|{{ question.type_text }}|{{ question.level_text }}|{{ question.score }}分</div>
-                <div class="content" v-html="question.content"></div>
+                <div class="content" v-html="question.content" />
               </div>
             </div>
           </Cell>
           <Cell :width="12">
             <div class="question-box">
               <div class="filter-box">
-                <Select v-model="category_id" :datas="categories" keyName="id" titleName="name" :filterable="true" @change="categoryChange"></Select>
+                <Select v-model="category_id" :datas="categories" key-name="id" title-name="name" :filterable="true" @change="categoryChange" />
               </div>
               <div class="body">
-                <div class="paper-item" @click="addQuestion(question)" v-for="question in questions" :key="question.id">
+                <div v-for="question in questions" :key="question.id" class="paper-item" @click="addQuestion(question)">
                   <div class="info">ID:{{ question.id }}|{{ question.type_text }}|{{ question.level_text }}|{{ question.score }}分</div>
-                  <div class="content" v-html="question.content"></div>
+                  <div class="content" v-html="question.content" />
                 </div>
               </div>
             </div>
@@ -166,47 +166,47 @@ export default {
       categories: [],
       data: [],
       loading: false
-    };
-  },
-  mounted() {
-    this.getData();
+    }
   },
   computed: {
     totalScore() {
-      let score = 0;
+      let score = 0
       for (let i = 0; i < this.data.length; i++) {
-        score += this.data[i].score;
+        score += this.data[i].score
       }
-      return score;
+      return score
     }
+  },
+  mounted() {
+    this.getData()
   },
   methods: {
     categoryChange() {
-      this.getData();
+      this.getData()
     },
     getData() {
       R.Extentions.paper.Paper.Questions({
         id: this.id,
         category_id: this.category_id
       }).then(res => {
-        this.questions = res.data.questions;
-        this.categories = res.data.categories;
-        this.data = res.data.data;
-      });
+        this.questions = res.data.questions
+        this.categories = res.data.categories
+        this.data = res.data.data
+      })
     },
     deleteQuestion(question) {
       R.Extentions.paper.Paper.DelQuestion({ id: this.id, question_id: question.id }).then(res => {
-        this.$Message.success('成功');
-        this.getData();
-      });
+        this.$Message.success('成功')
+        this.getData()
+      })
     },
     addQuestion(question) {
       R.Extentions.paper.Paper.AddQuestions({ id: this.id, s: [question.id] }).then(res => {
-        this.$Message.success('成功');
-        this.getData();
-        this.s = [];
-      });
+        this.$Message.success('成功')
+        this.getData()
+        this.s = []
+      })
     }
   }
-};
+}
 </script>

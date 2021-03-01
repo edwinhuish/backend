@@ -13,17 +13,17 @@
         <Row :space="10">
           <Cell :width="6">
             <FormItem label="课程">
-              <Select v-model="filter.type" :filterable="true" :datas="types" keyName="goods_type" titleName="goods_type_text"></Select>
+              <Select v-model="filter.type" :filterable="true" :datas="types" key-name="goods_type" title-name="goods_type_text" />
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="课程">
-              <Select v-model="filter.gid" :filterable="true" :datas="goodsList" keyName="id" titleName="goods_title"></Select>
+              <Select v-model="filter.gid" :filterable="true" :datas="goodsList" key-name="id" title-name="goods_title" />
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="支付状态">
-              <Select v-model="filter.status" :filterable="true" :datas="statusMap" keyName="id" titleName="text"></Select>
+              <Select v-model="filter.status" :filterable="true" :datas="statusMap" key-name="id" title-name="text" />
             </FormItem>
           </Cell>
           <Cell :width="6">
@@ -36,30 +36,30 @@
       </Form>
 
       <Table :loading="loading" :datas="datas">
-        <TableItem prop="id" title="ID" :width="80"></TableItem>
+        <TableItem prop="id" title="ID" :width="80" />
         <TableItem title="商品ID" :width="80">
           <template slot-scope="{ data }">
             <span v-if="data.goods">{{ data.goods.goods_id }}</span>
-            <span class="red" v-else>已删除</span>
+            <span v-else class="red">已删除</span>
           </template>
         </TableItem>
-        <TableItem prop="user_id" title="用户ID" :width="80"></TableItem>
+        <TableItem prop="user_id" title="用户ID" :width="80" />
         <TableItem title="用户" :width="120">
           <template slot-scope="{ data }">
             <span v-if="data.user">{{ data.user.nick_name }}</span>
-            <span class="red" v-else>已删除</span>
+            <span v-else class="red">已删除</span>
           </template>
         </TableItem>
         <TableItem title="类型" :width="100">
           <template slot-scope="{ data }">
             <span v-if="data.goods">{{ data.goods.goods_type_text }}</span>
-            <span class="red" v-else>已删除</span>
+            <span v-else class="red">已删除</span>
           </template>
         </TableItem>
         <TableItem title="商品">
           <template slot-scope="{ data }">
             <span v-if="data.goods">{{ data.goods.goods_title }}</span>
-            <span class="red" v-else>已删除</span>
+            <span v-else class="red">已删除</span>
           </template>
         </TableItem>
         <TableItem title="秒杀价" :width="80">
@@ -69,12 +69,12 @@
         <TableItem title="状态" :width="80">
           <template slot-scope="{ data }">
             <span v-if="data.status === 1">已支付</span>
-            <span class="red" v-else>未支付</span>
+            <span v-else class="red">未支付</span>
           </template>
         </TableItem>
       </Table>
 
-      <Pagination class="mt-10" v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+      <Pagination v-if="pagination.total > 0" v-model="pagination" class="mt-10" align="right" @change="changePage" />
     </div>
   </div>
 </template>
@@ -110,54 +110,54 @@ export default {
       ],
       goods: [],
       types: []
-    };
-  },
-  mounted() {
-    this.init();
+    }
   },
   computed: {
     goodsList() {
       if (!this.filter.type) {
-        return [];
+        return []
       }
-      let data = [];
+      const data = []
       for (let i = 0; i < this.goods.length; i++) {
         if (this.goods[i].goods_type === this.filter.type) {
-          data.push(this.goods[i]);
+          data.push(this.goods[i])
         }
       }
 
-      return data;
+      return data
     }
+  },
+  mounted() {
+    this.init()
   },
   methods: {
     reset() {
       this.filter = {
         gid: null,
         status: -1
-      };
-      this.getData();
+      }
+      this.getData()
     },
     init() {
-      this.getData(true);
+      this.getData(true)
     },
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData(reload = false) {
       if (reload) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
-      let data = Object.assign(this.filter, this.pagination);
+      this.loading = true
+      const data = Object.assign(this.filter, this.pagination)
       R.Extentions.miaoSha.Orders.Index(data).then(resp => {
-        this.datas = resp.data.data.data;
-        this.pagination.total = resp.data.data.total;
-        this.goods = resp.data.goods;
-        this.loading = false;
-        this.types = resp.data.types;
-      });
+        this.datas = resp.data.data.data
+        this.pagination.total = resp.data.data.total
+        this.goods = resp.data.goods
+        this.loading = false
+        this.types = resp.data.types
+      })
     }
   }
-};
+}
 </script>

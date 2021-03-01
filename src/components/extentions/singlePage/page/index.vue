@@ -5,22 +5,22 @@
     </div>
     <div class="h-panel-body">
       <div class="mb-10">
-        <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="addons.SinglePage.page.store" text="添加" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="addons.SinglePage.page.store" text="添加" @click="create()" />
       </div>
       <Table :loading="loading" :datas="datas">
-        <TableItem prop="sign" title="唯一标识"></TableItem>
-        <TableItem prop="title" title="标题"></TableItem>
-        <TableItem prop="url" title="地址"></TableItem>
-        <TableItem prop="view_times" title="浏览次数"></TableItem>
+        <TableItem prop="sign" title="唯一标识" />
+        <TableItem prop="title" title="标题" />
+        <TableItem prop="url" title="地址" />
+        <TableItem prop="view_times" title="浏览次数" />
         <TableItem title="操作" align="center" :width="200">
           <template slot-scope="{ data }">
-            <p-del-button permission="addons.SinglePage.page.delete" @click="remove(datas, data)"></p-del-button>
-            <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.SinglePage.page.update" text="编辑" @click="edit(data)"></p-button>
+            <p-del-button permission="addons.SinglePage.page.delete" @click="remove(datas, data)" />
+            <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.SinglePage.page.update" text="编辑" @click="edit(data)" />
           </template>
         </TableItem>
       </Table>
 
-      <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
+      <Pagination v-model="pagination" class="mt-10" align="right" @change="changePage" />
     </div>
   </div>
 </template>
@@ -35,28 +35,28 @@ export default {
       },
       datas: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
-      this.getData(true);
+      this.getData(true)
     },
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData(reload = false) {
       if (reload) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
+      this.loading = true
       R.Extentions.singlePage.Page.List(this.pagination).then(resp => {
-        this.datas = resp.data.data;
-        this.pagination.total = resp.data.total;
-        this.loading = false;
-      });
+        this.datas = resp.data.data
+        this.pagination.total = resp.data.total
+        this.loading = false
+      })
     },
     create() {
       this.$Modal({
@@ -64,25 +64,25 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           }
         },
         events: {
           success: (modal, data) => {
             R.Extentions.singlePage.Page.Store(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.Extentions.singlePage.Page.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData();
-      });
+        HeyUI.$Message.success('成功')
+        this.getData()
+      })
     },
     edit(item) {
       this.$Modal({
@@ -90,7 +90,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -99,14 +99,14 @@ export default {
         events: {
           success: (modal, data) => {
             R.Extentions.singlePage.Page.Update(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

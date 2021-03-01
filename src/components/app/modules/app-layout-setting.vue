@@ -9,7 +9,7 @@
     background-color: #fffbe6;
     line-height: 1.5;
     font-size: 12px;
-    color: rgba(0,0,0,.65);
+    color: rgba(0, 0, 0, 0.65);
     box-sizing: border-box;
     margin: 0;
     list-style: none;
@@ -20,7 +20,7 @@
   }
   .setting-form {
     margin: 0 0 0 -15px;
-    .h-form-item{
+    .h-form-item {
       margin-bottom: 10px;
     }
     .h-form-item-wrap {
@@ -35,18 +35,18 @@
     <div class="h-modal-header">系统布局配置</div>
     <div class="h-panel">
       <div class="h-panel-body">
-        <Form class="setting-form" :labelWidth="120" labelPosition="left" readonly>
+        <Form class="setting-form" :label-width="120" label-position="left" readonly>
           <FormItem label="Sider风格">
-            <SwitchList v-model="layoutConfig.siderTheme" small :datas="{'white': '白色', 'dark': '暗色'}"></SwitchList>
+            <SwitchList v-model="layoutConfig.siderTheme" small :datas="{ white: '白色', dark: '暗色' }" />
           </FormItem>
           <FormItem label="固定 Header">
-            <h-switch small v-model="layoutConfig.headerFixed"></h-switch>
+            <h-switch v-model="layoutConfig.headerFixed" small />
           </FormItem>
           <FormItem label="固定侧边菜单">
-            <h-switch small v-model="layoutConfig.siderFixed"></h-switch>
+            <h-switch v-model="layoutConfig.siderFixed" small />
           </FormItem>
           <FormItem label="开启多Tab">
-            <h-switch small v-model="layoutConfig.showSystab"></h-switch>
+            <h-switch v-model="layoutConfig.showSystab" small />
           </FormItem>
         </Form>
       </div>
@@ -54,21 +54,18 @@
   </div>
 </template>
 <script>
-
 export default {
   props: {
     layoutConfig: Object
   },
   data() {
-    return {
-    };
+    return {}
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     copySetting() {
-      this.$Clipboard({ text: JSON.stringify(this.layoutConfig, null, 2), showSuccessTip: '复制成功' });
+      this.$Clipboard({ text: JSON.stringify(this.layoutConfig, null, 2), showSuccessTip: '复制成功' })
     }
   }
-};
+}
 </script>

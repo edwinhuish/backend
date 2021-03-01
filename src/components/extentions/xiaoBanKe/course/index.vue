@@ -9,22 +9,22 @@
           <Row :space="10">
             <Cell :width="4">
               <FormItem label="课程ID">
-                <input type="text" v-model="cond.id" placeholder="课程ID" />
+                <input v-model="cond.id" type="text" placeholder="课程ID">
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="搜索">
-                <input type="text" v-model="cond.keywords" placeholder="课程标题" />
+                <input v-model="cond.keywords" type="text" placeholder="课程标题">
               </FormItem>
             </Cell>
             <Cell :width="4">
               <FormItem label="课程类型">
-                <Select v-model="cond.type" :datas="typeMap" keyName="key" titleName="title"></Select>
+                <Select v-model="cond.type" :datas="typeMap" key-name="key" title-name="title" />
               </FormItem>
             </Cell>
             <Cell :width="4">
               <FormItem label="状态">
-                <Select v-model="cond.status" :datas="statusMap" keyName="key" titleName="title"></Select>
+                <Select v-model="cond.status" :datas="statusMap" key-name="key" title-name="title" />
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -37,18 +37,18 @@
         </Form>
       </div>
       <div class="float-box mb-10">
-        <p-button glass="h-btn h-btn-primary" permission="addons.XiaoBanKe.course.store" text="添加课程" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="addons.XiaoBanKe.course.store" text="添加课程" @click="create()" />
         <p-button
           glass="h-btn h-btn-primary"
           permission="addons.XiaoBanKe.course_category.list"
           text="课程分类"
           @click="showCategoryPage()"
-        ></p-button>
+        />
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas">
-          <TableItem prop="id" title="课程ID" :width="100"></TableItem>
-          <TableItem prop="type_text" title="类型" :width="100"></TableItem>
+          <TableItem prop="id" title="课程ID" :width="100" />
+          <TableItem prop="type_text" title="类型" :width="100" />
           <TableItem title="分类" :width="150">
             <template slot-scope="{ data }">
               <span v-if="data.category">{{ data.category.name }}</span>
@@ -60,7 +60,7 @@
               <span class="red">{{ data.status_text }}</span>
             </template>
           </TableItem>
-          <TableItem prop="title" title="课程名" :width="500"></TableItem>
+          <TableItem prop="title" title="课程名" :width="500" />
           <TableItem title="价格" unit="元" :width="120">
             <template slot-scope="{ data }">
               <span>￥{{ data.charge }}</span> /
@@ -69,8 +69,7 @@
           </TableItem>
           <TableItem title="已报名/上限" :width="120">
             <template slot-scope="{ data }">
-              <span>{{ data.join_people_num || 0 }}</span
-              >/
+              <span>{{ data.join_people_num || 0 }}</span>/
               <span>{{ data.max_people_num }}</span>
             </template>
           </TableItem>
@@ -84,14 +83,14 @@
           <TableItem title="操作" align="center" :width="200" fixed="right">
             <template slot-scope="{ data }">
               <ButtonGroup>
-                <p-del-button permission="addons.XiaoBanKe.course.delete" @click="remove(datas, data)"></p-del-button>
-                <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.XiaoBanKe.course.edit" text="编辑" @click="edit(data)"></p-button>
+                <p-del-button permission="addons.XiaoBanKe.course.delete" @click="remove(datas, data)" />
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.XiaoBanKe.course.edit" text="编辑" @click="edit(data)" />
                 <p-button
                   glass="h-btn h-btn-primary h-btn-s"
                   permission="addons.XiaoBanKe.order.list"
                   text="订单"
                   @click="showOrderPage(data)"
-                ></p-button>
+                />
               </ButtonGroup>
             </template>
           </TableItem>
@@ -99,7 +98,7 @@
       </div>
 
       <div class="float-box mb-10">
-        <Pagination align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-model="pagination" align="right" @change="changePage" />
       </div>
     </div>
   </div>
@@ -125,38 +124,38 @@ export default {
       statusMap: [],
       typeMap: [],
       categories: []
-    };
+    }
   },
   mounted() {
-    this.getData();
+    this.getData()
   },
   methods: {
     reset() {
-      this.cond.keywords = null;
-      this.cond.id = null;
-      this.cond.cid = null;
-      this.cond.status = -1;
-      this.cond.type = -1;
-      this.getData(true);
+      this.cond.keywords = null
+      this.cond.id = null
+      this.cond.cid = null
+      this.cond.status = -1
+      this.cond.type = -1
+      this.getData(true)
     },
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData() {
       if (this.loading) {
-        return;
+        return
       }
-      this.loading = true;
-      let data = this.pagination;
-      Object.assign(data, this.cond);
+      this.loading = true
+      const data = this.pagination
+      Object.assign(data, this.cond)
       R.Extentions.xiaoBanKe.Course.List(data).then(resp => {
-        this.datas = resp.data.data.data;
-        this.pagination.total = resp.data.data.total;
-        this.statusMap = resp.data.statusMap;
-        this.typeMap = resp.data.typeMap;
-        this.categories = resp.data.categories;
-        this.loading = false;
-      });
+        this.datas = resp.data.data.data
+        this.pagination.total = resp.data.data.total
+        this.statusMap = resp.data.statusMap
+        this.typeMap = resp.data.typeMap
+        this.categories = resp.data.categories
+        this.loading = false
+      })
     },
     create() {
       this.$Modal({
@@ -164,23 +163,23 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           }
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            HeyUI.$Message.success('成功');
-            this.getData(true);
+            modal.close()
+            HeyUI.$Message.success('成功')
+            this.getData(true)
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.Extentions.xiaoBanKe.Course.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData(true);
-      });
+        HeyUI.$Message.success('成功')
+        this.getData(true)
+      })
     },
     edit(item) {
       this.$Modal({
@@ -188,7 +187,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -196,12 +195,12 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            HeyUI.$Message.success('成功');
-            this.getData(true);
+            modal.close()
+            HeyUI.$Message.success('成功')
+            this.getData(true)
           }
         }
-      });
+      })
     },
 
     showCategoryPage() {
@@ -210,10 +209,10 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['../course_category/index'], resolve);
+            require(['../course_category/index'], resolve)
           }
         }
-      });
+      })
     },
     showOrderPage(item) {
       this.$Modal({
@@ -221,14 +220,14 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['../order/index'], resolve);
+            require(['../order/index'], resolve)
           },
           datas: {
             id: item.id
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

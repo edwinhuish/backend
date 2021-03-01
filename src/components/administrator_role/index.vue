@@ -5,24 +5,24 @@
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
-        <p-button glass="h-btn h-btn-primary" permission="administrator_role.store" text="添加" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="administrator_role.store" text="添加" @click="create()" />
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas">
-          <TableItem prop="id" title="ID" :width="80"></TableItem>
-          <TableItem prop="display_name" title="角色名" :width="150"></TableItem>
-          <TableItem prop="slug" title="Slug" :width="120"></TableItem>
-          <TableItem prop="description" title="描述"></TableItem>
+          <TableItem prop="id" title="ID" :width="80" />
+          <TableItem prop="display_name" title="角色名" :width="150" />
+          <TableItem prop="slug" title="Slug" :width="120" />
+          <TableItem prop="description" title="描述" />
           <TableItem title="操作" align="center" :width="200">
             <template slot-scope="{ data }">
-              <p-del-button permission="administrator_role.destroy" @click="remove(datas, data)"></p-del-button>
-              <p-button glass="h-btn h-btn-s h-btn-primary" permission="administrator_role.edit" text="编辑" @click="edit(data)"></p-button>
+              <p-del-button permission="administrator_role.destroy" @click="remove(datas, data)" />
+              <p-button glass="h-btn h-btn-s h-btn-primary" permission="administrator_role.edit" text="编辑" @click="edit(data)" />
             </template>
           </TableItem>
         </Table>
       </div>
       <div class="float-box mb-10">
-        <Pagination align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-model="pagination" align="right" @change="changePage" />
       </div>
     </div>
   </div>
@@ -38,25 +38,25 @@ export default {
       },
       datas: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.getData(true);
+    this.getData(true)
   },
   methods: {
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData(reload = false) {
       if (reload) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
+      this.loading = true
       R.AdministratorRole.List(this.pagination).then(resp => {
-        this.datas = resp.data.data;
-        this.pagination.total = resp.data.total;
-        this.loading = false;
-      });
+        this.datas = resp.data.data
+        this.pagination.total = resp.data.total
+        this.loading = false
+      })
     },
     create() {
       this.$Modal({
@@ -64,25 +64,25 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           }
         },
         events: {
           success: (modal, data) => {
             R.AdministratorRole.Store(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.AdministratorRole.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData();
-      });
+        HeyUI.$Message.success('成功')
+        this.getData()
+      })
     },
     edit(item) {
       this.$Modal({
@@ -90,7 +90,7 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -99,14 +99,14 @@ export default {
         events: {
           success: (modal, data) => {
             R.AdministratorRole.Update(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData();
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData()
+            })
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

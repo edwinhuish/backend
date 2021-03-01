@@ -3,21 +3,21 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">课程附件</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
       <div class="mb-10">
-        <p-button glass="h-btn h-btn-primary" permission="course_attach.store" text="添加" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="course_attach.store" text="添加" @click="create()" />
       </div>
       <Table :loading="loading" :datas="datas">
-        <TableItem prop="id" title="ID" :wdith="120"></TableItem>
-        <TableItem prop="name" title="附件名" :width="300"></TableItem>
-        <TableItem prop="path" title="路径"></TableItem>
-        <TableItem prop="download_times" title="下载次数" unit="次" :width="100"></TableItem>
+        <TableItem prop="id" title="ID" :wdith="120" />
+        <TableItem prop="name" title="附件名" :width="300" />
+        <TableItem prop="path" title="路径" />
+        <TableItem prop="download_times" title="下载次数" unit="次" :width="100" />
         <TableItem title="操作" align="center" :width="200">
           <template slot-scope="{ data }">
-            <p-del-button permission="course_attach.destroy" @click="remove(datas, data)"></p-del-button>
+            <p-del-button permission="course_attach.destroy" @click="remove(datas, data)" />
           </template>
         </TableItem>
       </Table>
@@ -32,22 +32,22 @@ export default {
       datas: [],
       course: {},
       loading: false
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
-      this.getData(true);
+      this.getData(true)
     },
     getData(reload = false) {
-      this.loading = true;
+      this.loading = true
       R.CourseAttach.List({ course_id: this.cid }).then(resp => {
-        this.loading = false;
-        this.datas = resp.data.data;
-        this.course = resp.data.course;
-      });
+        this.loading = false
+        this.datas = resp.data.data
+        this.course = resp.data.course
+      })
     },
     create() {
       this.$Modal({
@@ -55,7 +55,7 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           },
           datas: {
             cid: this.course.id
@@ -63,21 +63,21 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
+            modal.close()
             R.CourseAttach.Store(data).then(resp => {
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.CourseAttach.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData(true);
-      });
+        HeyUI.$Message.success('成功')
+        this.getData(true)
+      })
     }
   }
-};
+}
 </script>

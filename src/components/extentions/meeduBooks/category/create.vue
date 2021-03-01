@@ -4,16 +4,16 @@
       <span class="h-panel-title">添加</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">添加</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="category">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="category">
         <FormItem label="分类名" prop="name">
-          <input type="text" v-model="category.name" />
+          <input v-model="category.name" type="text">
         </FormItem>
         <FormItem label="升序" prop="sort">
-          <input type="number" v-model="category.sort" />
+          <input v-model="category.sort" type="number">
         </FormItem>
       </Form>
     </div>
@@ -30,12 +30,12 @@ export default {
       rules: {
         required: ['name', 'sort']
       }
-    };
+    }
   },
   methods: {
     create() {
-      this.$emit('success', this.category);
+      this.$emit('success', this.category)
     }
   }
-};
+}
 </script>

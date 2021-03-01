@@ -4,7 +4,7 @@
 }
 </style>
 <template>
-  <span class="copytext" @click="copy">{{copytext}}</span>
+  <span class="copytext" @click="copy">{{ copytext }}</span>
 </template>
 <script>
 export default {
@@ -13,8 +13,8 @@ export default {
     copy() {
       this.$Clipboard({
         text: this.copytext
-      });
+      })
     }
   }
-};
+}
 </script>

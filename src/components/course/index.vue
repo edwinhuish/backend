@@ -9,18 +9,18 @@
           <Row :space="10">
             <Cell :width="4">
               <FormItem label="课程ID">
-                <input type="text" v-model="cond.id" placeholder="课程ID" />
+                <input v-model="cond.id" type="text" placeholder="课程ID">
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="搜索">
-                <input type="text" v-model="cond.keywords" placeholder="课程标题" />
+                <input v-model="cond.keywords" type="text" placeholder="课程标题">
               </FormItem>
             </Cell>
             <Cell :width="8">
               <FormItem label="分类">
                 <template v-slot:label>分类</template>
-                <Select v-model="cond.cid" :filterable="true" :datas="categories" keyName="id" titleName="name"></Select>
+                <Select v-model="cond.cid" :filterable="true" :datas="categories" key-name="id" title-name="name" />
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -33,13 +33,13 @@
         </Form>
       </div>
       <div class="float-box mb-10">
-        <p-button glass="h-btn h-btn-primary" permission="course.store" text="添加" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="course.store" text="添加" @click="create()" />
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas" @sort="sortEvt">
-          <TableItem prop="id" title="课程ID" :sort="true" :width="120"></TableItem>
-          <TableItem prop="title" title="课程"></TableItem>
-          <TableItem prop="charge" title="价格" unit="元" :sort="true" :width="120"></TableItem>
+          <TableItem prop="id" title="课程ID" :sort="true" :width="120" />
+          <TableItem prop="title" title="课程" />
+          <TableItem prop="charge" title="价格" unit="元" :sort="true" :width="120" />
           <TableItem title="订阅" :sort="true" :width="120">
             <template slot-scope="{ data }">
               <span @click="showSubscribesPage(data)">{{ data.user_count }}</span>
@@ -48,23 +48,23 @@
           <TableItem title="操作" align="center" :width="350">
             <template slot-scope="{ data }">
               <ButtonGroup>
-                <p-del-button permission="course.destroy" @click="remove(datas, data)"></p-del-button>
-                <p-button glass="h-btn h-btn-s h-btn-primary" permission="course.edit" text="编辑" @click="edit(data)"></p-button>
-                <p-button glass="h-btn h-btn-s h-btn-primary" permission="course_chapter" text="章节" @click="goChapter(data)"></p-button>
-                <p-button glass="h-btn h-btn-s h-btn-primary" permission="course_attach" text="附件" @click="goCourseAttach(data)"></p-button>
+                <p-del-button permission="course.destroy" @click="remove(datas, data)" />
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="course.edit" text="编辑" @click="edit(data)" />
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="course_chapter" text="章节" @click="goChapter(data)" />
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="course_attach" text="附件" @click="goCourseAttach(data)" />
                 <p-button
                   glass="h-btn h-btn-s h-btn-primary"
                   permission="course.watchRecords"
                   text="用户观看"
                   @click="showWatchRecords(data)"
-                ></p-button>
+                />
               </ButtonGroup>
             </template>
           </TableItem>
         </Table>
       </div>
       <div class="float-box mb-10">
-        <Pagination align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-model="pagination" align="right" @change="changePage" />
       </div>
     </div>
   </div>
@@ -88,38 +88,38 @@ export default {
       datas: [],
       loading: false,
       categories: []
-    };
+    }
   },
   mounted() {
-    this.getData(true);
+    this.getData(true)
   },
   methods: {
     changePage() {
-      this.getData();
+      this.getData()
     },
     sortEvt(sort) {
-      this.cond.sort = sort.prop;
-      this.cond.order = sort.type;
-      this.getData();
+      this.cond.sort = sort.prop
+      this.cond.order = sort.type
+      this.getData()
     },
     reset() {
-      this.cond.keywords = null;
-      this.cond.cid = null;
-      this.cond.id = null;
-      this.getData(true);
+      this.cond.keywords = null
+      this.cond.cid = null
+      this.cond.id = null
+      this.getData(true)
     },
     getData(reload = false) {
       if (reload) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
-      let cond = Object.assign(this.cond, this.pagination);
+      this.loading = true
+      const cond = Object.assign(this.cond, this.pagination)
       R.Course.List(cond).then(resp => {
-        this.datas = resp.data.courses.data;
-        this.pagination.total = resp.data.courses.total;
-        this.loading = false;
-        this.categories = resp.data.categories;
-      });
+        this.datas = resp.data.courses.data
+        this.pagination.total = resp.data.courses.total
+        this.loading = false
+        this.categories = resp.data.categories
+      })
     },
     create() {
       this.$Modal({
@@ -127,22 +127,22 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           }
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData(true);
+            modal.close()
+            this.getData(true)
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.Course.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData();
-      });
+        HeyUI.$Message.success('成功')
+        this.getData()
+      })
     },
     edit(item) {
       this.$Modal({
@@ -150,7 +150,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -158,11 +158,11 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData();
+            modal.close()
+            this.getData()
           }
         }
-      });
+      })
     },
     goChapter(item) {
       this.$Modal({
@@ -170,13 +170,13 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./chapter/index'], resolve);
+            require(['./chapter/index'], resolve)
           },
           datas: {
             cid: item.id
           }
         }
-      });
+      })
     },
     goCourseAttach(item) {
       this.$Modal({
@@ -184,13 +184,13 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./attach/index'], resolve);
+            require(['./attach/index'], resolve)
           },
           datas: {
             cid: item.id
           }
         }
-      });
+      })
     },
     showWatchRecords(item) {
       this.$Modal({
@@ -198,13 +198,13 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./watch_records'], resolve);
+            require(['./watch_records'], resolve)
           },
           datas: {
             id: item.id
           }
         }
-      });
+      })
     },
     showSubscribesPage(item) {
       this.$Modal({
@@ -212,14 +212,14 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./subscribe/index'], resolve);
+            require(['./subscribe/index'], resolve)
           },
           datas: {
             id: item.id
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

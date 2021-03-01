@@ -11,7 +11,7 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">订单</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -36,8 +36,8 @@
       </div>
       <div class="float-box mb-10">
         <Table :datas="order.goods" :stripe="true" class="mb-10">
-          <TableItem prop="id" title="ID" :width="100"></TableItem>
-          <TableItem prop="goods_id" title="商品ID" :width="100"></TableItem>
+          <TableItem prop="id" title="ID" :width="100" />
+          <TableItem prop="goods_id" title="商品ID" :width="100" />
           <TableItem title="商品">
             <template slot-scope="{ data }">
               <span>[{{ data.goods_text }}]{{ data.goods_name }}</span>
@@ -48,7 +48,7 @@
               <span>￥{{ data.charge }}/￥{{ data.goods_charge }}</span>
             </template>
           </TableItem>
-          <TableItem prop="num" title="数量" :width="100"></TableItem>
+          <TableItem prop="num" title="数量" :width="100" />
         </Table>
       </div>
       <div class="float-box mb-10 mt-10">
@@ -56,14 +56,14 @@
       </div>
       <div class="float-box mb-10">
         <Table :datas="order.paid_records" :stripe="true" class="mb-10">
-          <TableItem prop="id" title="ID" :width="100"></TableItem>
-          <TableItem prop="paid_type_text" title="支付渠道" :width="150"></TableItem>
+          <TableItem prop="id" title="ID" :width="100" />
+          <TableItem prop="paid_type_text" title="支付渠道" :width="150" />
           <TableItem title="支付金额" :width="100">
             <template slot-scope="{ data }">
               <span>￥{{ data.paid_total }}</span>
             </template>
           </TableItem>
-          <TableItem prop="paid_type_id" title="渠道ID" :width="150"></TableItem>
+          <TableItem prop="paid_type_id" title="渠道ID" :width="150" />
         </Table>
       </div>
     </div>
@@ -76,13 +76,13 @@ export default {
     return {
       order: null,
       user: null
-    };
+    }
   },
   mounted() {
     R.Order.Detail({ id: this.id }).then(res => {
-      this.order = res.data.order;
-      this.user = res.data.user;
-    });
+      this.order = res.data.order
+      this.user = res.data.user
+    })
   }
-};
+}
 </script>

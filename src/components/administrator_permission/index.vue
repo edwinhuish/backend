@@ -6,12 +6,12 @@
         <Button class="h-btn h-btn-primary" icon="h-icon-plus" @click="create()">添加</Button>
       </p>
       <Table :loading="loading" :datas="datas">
-        <TableItem prop="display_name" title="角色名"></TableItem>
-        <TableItem prop="slug" title="Slug"></TableItem>
-        <TableItem prop="description" title="描述"></TableItem>
-        <TableItem prop="method" title="Method"></TableItem>
-        <TableItem prop="url" title="URL"></TableItem>
-        <TableItem prop="created_at" title="创建时间"></TableItem>
+        <TableItem prop="display_name" title="角色名" />
+        <TableItem prop="slug" title="Slug" />
+        <TableItem prop="description" title="描述" />
+        <TableItem prop="method" title="Method" />
+        <TableItem prop="url" title="URL" />
+        <TableItem prop="created_at" title="创建时间" />
         <TableItem title="操作" align="center" :width="80">
           <template slot-scope="{ data }">
             <Poptip content="确认删除？" @confirm="remove(datas, data)">
@@ -21,8 +21,8 @@
           </template>
         </TableItem>
       </Table>
-      <p></p>
-      <Pagination v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+      <p />
+      <Pagination v-if="pagination.total > 0" v-model="pagination" align="right" @change="changePage" />
     </div>
   </div>
 </template>
@@ -37,43 +37,43 @@ export default {
       },
       datas: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
-      this.getData(true);
+      this.getData(true)
     },
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData(reload = false) {
       if (reload) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
+      this.loading = true
       R.AdministratorPermission.List(this.pagination).then(resp => {
-        this.datas = resp.data.data;
-        this.pagination.total = resp.data.total;
-        this.pagination.page = resp.data.current_page;
-        this.pagination.size = resp.data.per_page;
-        this.loading = false;
-      });
+        this.datas = resp.data.data
+        this.pagination.total = resp.data.total
+        this.pagination.page = resp.data.current_page
+        this.pagination.size = resp.data.per_page
+        this.loading = false
+      })
     },
     create() {
-      this.$router.push({ name: 'AdministratorPermissionCreate' });
+      this.$router.push({ name: 'AdministratorPermissionCreate' })
     },
     remove(data, item) {
       R.AdministratorPermission.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData(true);
-      });
+        HeyUI.$Message.success('成功')
+        this.getData(true)
+      })
     },
     edit(item) {
-      this.$router.push({ name: 'AdministratorPermissionEdit', params: { id: item.id } });
+      this.$router.push({ name: 'AdministratorPermissionEdit', params: { id: item.id }})
     }
   }
-};
+}
 </script>

@@ -3,8 +3,8 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">导入试题</span>
       <div class="h-panel-right">
-        <Button @click="submitImport" color="primary">导入</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button color="primary" @click="submitImport">导入</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -19,7 +19,7 @@
         <p>判断题答案：正确填写1，错误填写0</p>
       </div>
       <div class="float-box mb-10">
-        <input type="file" ref="file" />
+        <input ref="file" type="file">
       </div>
     </div>
   </div>
@@ -31,38 +31,38 @@ export default {
     return {
       file: null,
       token: ''
-    };
+    }
   },
   mounted() {
-    this.token = Utils.getLocal('token');
-    this.init();
+    this.token = Utils.getLocal('token')
+    this.init()
   },
   methods: {
     init() {},
     submitImport() {
       if (this.$refs.file.files.length === 0) {
-        this.$Message.error('请选择文件');
-        return;
+        this.$Message.error('请选择文件')
+        return
       }
-      let file = this.$refs.file.files[0];
-      var form = new FormData();
-      form.append('file', file);
-      var xhr = new XMLHttpRequest();
-      var action = '/backend/addons/Paper/question/import/csv?token=' + Utils.getLocal('token');
-      xhr.open('POST', action);
-      xhr.send(form);
+      const file = this.$refs.file.files[0]
+      var form = new FormData()
+      form.append('file', file)
+      var xhr = new XMLHttpRequest()
+      var action = '/backend/addons/Paper/question/import/csv?token=' + Utils.getLocal('token')
+      xhr.open('POST', action)
+      xhr.send(form)
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
-          var resultObj = JSON.parse(xhr.responseText);
+          var resultObj = JSON.parse(xhr.responseText)
           if (resultObj.status === 0) {
-            this.$Message.success('成功');
-            this.$emit('success');
+            this.$Message.success('成功')
+            this.$emit('success')
           } else {
-            this.$Message.error(resultObj.message);
+            this.$Message.error(resultObj.message)
           }
         }
-      };
+      }
     }
   }
-};
+}
 </script>

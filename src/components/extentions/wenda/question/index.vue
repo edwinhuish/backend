@@ -8,16 +8,16 @@
         <Form>
           <Row :space="10">
             <Cell :width="6">
-              <FormItem label="用户ID"> <input type="text" v-model="filter.user_id" placeholder="用户ID" /> </FormItem>
+              <FormItem label="用户ID"> <input v-model="filter.user_id" type="text" placeholder="用户ID"> </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="分类">
-                <Select v-model="filter.category_id" :datas="categories" keyName="id" titleName="name" :filterable="true"></Select>
+                <Select v-model="filter.category_id" :datas="categories" key-name="id" title-name="name" :filterable="true" />
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="状态">
-                <Select v-model="filter.status" :datas="statusOptions" keyName="id" titleName="name" :filterable="true"></Select>
+                <Select v-model="filter.status" :datas="statusOptions" key-name="id" title-name="name" :filterable="true" />
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -31,15 +31,15 @@
       </div>
 
       <div class="float-box mb-10">
-        <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Wenda.category.list" text="分类管理" @click="showCategoryPage()"></p-button>
+        <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Wenda.category.list" text="分类管理" @click="showCategoryPage()" />
 
-        <p-del-button permission="addons.Wenda.question.delete" text="批量删除" @click="deleteSubmit()"></p-del-button>
+        <p-del-button permission="addons.Wenda.question.delete" text="批量删除" @click="deleteSubmit()" />
       </div>
 
       <div class="float-box mb-10">
         <Table ref="table" :checkbox="true" :loading="loading" :datas="datas">
-          <TableItem prop="id" title="ID" :width="80"></TableItem>
-          <TableItem prop="user_id" title="用户ID" :width="80"></TableItem>
+          <TableItem prop="id" title="ID" :width="80" />
+          <TableItem prop="user_id" title="用户ID" :width="80" />
           <TableItem title="分类" align="center" :width="80">
             <template slot-scope="{ data }">
               <span>{{ data.category.name }}</span>
@@ -50,11 +50,11 @@
               <span>{{ data.user.nick_name }}</span>
             </template>
           </TableItem>
-          <TableItem prop="title" title="标题"></TableItem>
-          <TableItem prop="view_times" title="浏览" unit="次" :width="80"></TableItem>
-          <TableItem prop="vote_count" title="点赞" unit="次" :width="80"></TableItem>
-          <TableItem prop="answer_count" title="答案" unit="个" :width="80"></TableItem>
-          <TableItem prop="credit1" title="积分" unit="积分" :width="100"></TableItem>
+          <TableItem prop="title" title="标题" />
+          <TableItem prop="view_times" title="浏览" unit="次" :width="80" />
+          <TableItem prop="vote_count" title="点赞" unit="次" :width="80" />
+          <TableItem prop="answer_count" title="答案" unit="个" :width="80" />
+          <TableItem prop="credit1" title="积分" unit="积分" :width="100" />
           <TableItem title="状态" align="center" :width="80">
             <template slot-scope="{ data }">
               <span v-if="data.status === 1" class="red">已解决</span>
@@ -68,14 +68,14 @@
                 permission="addons.Wenda.question.answers"
                 text="回答"
                 @click="showAnswersPage(data)"
-              ></p-button>
+              />
             </template>
           </TableItem>
         </Table>
       </div>
 
       <div class="float-box mb-10">
-        <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-model="pagination" class="mt-10" align="right" @change="changePage" />
       </div>
     </div>
   </div>
@@ -107,50 +107,50 @@ export default {
         }
       ],
       categories: []
-    };
+    }
   },
   mounted() {
-    this.getData();
+    this.getData()
   },
   methods: {
     deleteSubmit() {
-      let items = this.$refs.table.getSelection();
+      const items = this.$refs.table.getSelection()
       if (items.length === 0) {
-        this.$Message.error('请选择需要删除的问题');
-        return;
+        this.$Message.error('请选择需要删除的问题')
+        return
       }
-      this.loading = true;
-      let ids = [];
+      this.loading = true
+      const ids = []
       for (let i = 0; i < items.length; i++) {
-        ids.push(items[i].id);
+        ids.push(items[i].id)
       }
       R.Extentions.wenda.Question.Delete({ ids: ids }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData();
-        this.loading = false;
-      });
+        HeyUI.$Message.success('成功')
+        this.getData()
+        this.loading = false
+      })
     },
     resetFilter() {
       this.filter = {
         category_id: null,
         status: null,
         user_id: null
-      };
-      this.getData();
+      }
+      this.getData()
     },
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData() {
-      this.loading = true;
-      let data = this.pagination;
-      Object.assign(data, this.filter);
+      this.loading = true
+      const data = this.pagination
+      Object.assign(data, this.filter)
       R.Extentions.wenda.Question.List(data).then(resp => {
-        this.datas = resp.data.data.data;
-        this.pagination.total = resp.data.data.total;
-        this.loading = false;
-        this.categories = resp.data.categories;
-      });
+        this.datas = resp.data.data.data
+        this.pagination.total = resp.data.data.total
+        this.loading = false
+        this.categories = resp.data.categories
+      })
     },
     showCategoryPage() {
       this.$Modal({
@@ -158,10 +158,10 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['../category/index'], resolve);
+            require(['../category/index'], resolve)
           }
         }
-      });
+      })
     },
     showAnswersPage(item) {
       this.$Modal({
@@ -169,15 +169,15 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['../answer/index'], resolve);
+            require(['../answer/index'], resolve)
           },
           datas: {
             id: item.id,
             solved: item.status === 1
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

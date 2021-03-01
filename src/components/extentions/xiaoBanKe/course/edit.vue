@@ -4,48 +4,48 @@
       <span class="h-panel-title">编辑</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="course">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="course">
         <Row :space="10">
           <Cell :width="24">
             <FormItem label="课程标题" prop="title">
-              <input type="text" v-model="course.title" />
+              <input v-model="course.title" type="text">
             </FormItem>
           </Cell>
 
           <Cell :width="6">
             <FormItem label="类型" prop="type">
-              <Select v-model="course.type" :datas="courseTypes" keyName="id" titleName="name"></Select>
+              <Select v-model="course.type" :datas="courseTypes" key-name="id" title-name="name" />
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="分类" prop="category_id">
-              <Select v-model="course.category_id" :datas="categories" keyName="id" titleName="name" :filterable="true"></Select>
+              <Select v-model="course.category_id" :datas="categories" key-name="id" title-name="name" :filterable="true" />
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="老师" prop="teacher_ids">
-              <Select v-model="course.teacher_ids" :datas="teachers" :multiple="true" keyName="id" titleName="name" :filterable="true"></Select>
+              <Select v-model="course.teacher_ids" :datas="teachers" :multiple="true" key-name="id" title-name="name" :filterable="true" />
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="显示" prop="is_show">
-              <h-switch v-model="course.is_show" :trueValue="1" :falseValue="0"></h-switch>
+              <h-switch v-model="course.is_show" :true-value="1" :false-value="0" />
             </FormItem>
           </Cell>
 
           <Cell :width="24">
             <FormItem label="课程封面" prop="thumb">
-              <image-upload v-model="course.thumb" name="课程封面"></image-upload>
+              <image-upload v-model="course.thumb" name="课程封面" />
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="价格" prop="charge">
               <div class="h-input-group">
-                <input type="text" v-model="course.charge" />
+                <input v-model="course.charge" type="text">
                 <span class="h-input-addon">元</span>
               </div>
             </FormItem>
@@ -53,7 +53,7 @@
           <Cell :width="6">
             <FormItem label="原价" prop="original_charge">
               <div class="h-input-group">
-                <input type="text" v-model="course.original_charge" />
+                <input v-model="course.original_charge" type="text">
                 <span class="h-input-addon">元</span>
               </div>
             </FormItem>
@@ -61,22 +61,22 @@
 
           <Cell :width="6">
             <FormItem label="开课时间" prop="open_at">
-              <DatePicker v-model="course.open_at" type="datetime"></DatePicker>
+              <DatePicker v-model="course.open_at" type="datetime" />
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="结课时间" prop="over_at">
-              <DatePicker v-model="course.over_at" type="datetime"></DatePicker>
+              <DatePicker v-model="course.over_at" type="datetime" />
             </FormItem>
           </Cell>
           <Cell :width="24">
             <FormItem label="简短介绍" prop="short_desc">
-              <textarea v-model="course.short_desc"></textarea>
+              <textarea v-model="course.short_desc" />
             </FormItem>
           </Cell>
           <Cell :width="24">
             <FormItem label="详细介绍" prop="description">
-              <tinymce-editor v-model="course.original_desc"></tinymce-editor>
+              <tinymce-editor v-model="course.original_desc" />
             </FormItem>
           </Cell>
         </Row>
@@ -85,13 +85,13 @@
   </div>
 </template>
 <script>
-import TinymceEditor from '../../../common/tinymce';
+import TinymceEditor from '../../../common/tinymce'
 
 export default {
-  props: ['id'],
   components: {
     TinymceEditor
   },
+  props: ['id'],
   data() {
     return {
       course: {
@@ -148,45 +148,45 @@ export default {
           name: '1v1'
         }
       ]
-    };
+    }
   },
   watch: {
     'course.type'() {
       if (this.course.type === 0) {
-        this.course.max_people_num = 6;
+        this.course.max_people_num = 6
       } else if (this.course.type === 1) {
         // 大班课
-        this.course.max_people_num = 200;
+        this.course.max_people_num = 200
       } else if (this.course.type === 2) {
         // 直播课
-        this.course.max_people_num = 0;
+        this.course.max_people_num = 0
       } else if (this.course.type === 3) {
         // 1v1
-        this.course.max_people_num = 1;
+        this.course.max_people_num = 1
       }
     }
   },
   mounted() {
     R.Extentions.xiaoBanKe.Course.Edit({ id: this.id }).then(res => {
-      this.course = res.data.data;
-      this.course.teacher_ids = res.data.teacher_ids;
-    });
+      this.course = res.data.data
+      this.course.teacher_ids = res.data.teacher_ids
+    })
     R.Extentions.xiaoBanKe.Course.Create().then(res => {
-      this.teachers = res.data.teachers;
-      this.categories = res.data.categories;
-    });
+      this.teachers = res.data.teachers
+      this.categories = res.data.categories
+    })
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        let data = this.course;
-        data.render_desc = this.course.original_desc;
+        const data = this.course
+        data.render_desc = this.course.original_desc
         R.Extentions.xiaoBanKe.Course.Update(data).then(resp => {
-          this.$emit('success');
-        });
+          this.$emit('success')
+        })
       }
     }
   }
-};
+}
 </script>

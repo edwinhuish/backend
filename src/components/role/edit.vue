@@ -4,32 +4,32 @@
       <span class="h-panel-title">编辑</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="role">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="role">
         <Row :space="10">
           <Cell :width="6">
             <FormItem label="角色名" prop="name">
-              <input type="text" v-model="role.name" placeholder="如：年度会员" />
+              <input v-model="role.name" type="text" placeholder="如：年度会员">
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="天数" prop="expire_days">
-              <input type="number" v-model="role.expire_days" />
+              <input v-model="role.expire_days" type="number">
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="价格" prop="charge">
-              <input type="number" v-model="role.charge" />
+              <input v-model="role.charge" type="number">
             </FormItem>
           </Cell>
         </Row>
         <Row>
           <Cell :width="24">
             <FormItem label="显示" prop="is_show">
-              <h-switch v-model="role.is_show" :trueValue="1" :falseValue="0">
+              <h-switch v-model="role.is_show" :true-value="1" :false-value="0">
                 <span slot="1">是</span>
                 <span slot="0">否</span>
               </h-switch>
@@ -40,7 +40,7 @@
         <Row>
           <Cell :width="24">
             <FormItem label="描述" prop="description">
-              <textarea v-model="role.description" rows="3" placeholder="一行一个描述"></textarea>
+              <textarea v-model="role.description" rows="3" placeholder="一行一个描述" />
             </FormItem>
           </Cell>
         </Row>
@@ -49,7 +49,7 @@
   </div>
 </template>
 <script>
-import Role from 'model/Role';
+import Role from 'model/Role'
 
 export default {
   props: ['id'],
@@ -59,26 +59,26 @@ export default {
       rules: {
         required: ['name', 'description', 'expire_days', 'charge']
       }
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
       R.Role.Edit({ id: this.id }).then(res => {
-        this.role = res.data;
-      });
+        this.role = res.data
+      })
     },
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
         R.Role.Update(this.role).then(resp => {
-          HeyUI.$Message.success('成功');
-          this.$emit('success');
-        });
+          HeyUI.$Message.success('成功')
+          this.$emit('success')
+        })
       }
     }
   }
-};
+}
 </script>

@@ -9,12 +9,12 @@
           <Row :space="10">
             <Cell :width="6">
               <FormItem label="UID">
-                <user-filter v-model="filter.user_id"></user-filter>
+                <user-filter v-model="filter.user_id" />
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="会员">
-                <Select v-model="filter.status" :datas="statusMap" keyName="id" titleName="name"></Select>
+                <Select v-model="filter.status" :datas="statusMap" key-name="id" title-name="name" />
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -28,20 +28,20 @@
       </div>
 
       <div class="float-box mb-10">
-        <p-del-button permission="member.inviteBalance.withdrawOrders" text="批量操作" @click="multiHandle"></p-del-button>
+        <p-del-button permission="member.inviteBalance.withdrawOrders" text="批量操作" @click="multiHandle" />
       </div>
 
       <div class="float-box mb-10">
         <Table ref="table" :loading="loading" :datas="datas" :checkbox="true">
-          <TableItem prop="id" title="ID" :width="80"></TableItem>
-          <TableItem prop="user_id" title="用户ID" :width="80"></TableItem>
+          <TableItem prop="id" title="ID" :width="80" />
+          <TableItem prop="user_id" title="用户ID" :width="80" />
           <TableItem title="用户" :width="150">
             <template slot-scope="{ data }">
               <span v-if="users[data.user_id]">{{ users[data.user_id].nick_name }}</span>
               <span v-else class="red">已删除</span>
             </template>
           </TableItem>
-          <TableItem prop="total" title="金额" unit="元" :width="100"></TableItem>
+          <TableItem prop="total" title="金额" unit="元" :width="100" />
           <TableItem title="渠道" :width="150">
             <template slot-scope="{ data }">
               <copytext :copytext="data.channel" />
@@ -65,15 +65,15 @@
           </TableItem>
           <TableItem title="创建时间" :width="120">
             <template slot-scope="{ data }">
-              <date-text :date="data.created_at"></date-text>
+              <date-text :date="data.created_at" />
             </template>
           </TableItem>
-          <TableItem prop="remark" title="备注"></TableItem>
+          <TableItem prop="remark" title="备注" />
         </Table>
       </div>
 
       <div class="float-box mb-10">
-        <Pagination v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-if="pagination.total > 0" v-model="pagination" align="right" @change="changePage" />
       </div>
     </div>
   </div>
@@ -113,52 +113,52 @@ export default {
           name: '失败'
         }
       ]
-    };
+    }
   },
   mounted() {
-    this.getData(true);
+    this.getData(true)
   },
   methods: {
     reset() {
-      this.filter.user_id = null;
-      this.filter.status = -1;
-      this.getData(true);
+      this.filter.user_id = null
+      this.filter.status = -1
+      this.getData(true)
     },
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData(reload = false) {
       if (reload) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
-      let data = this.pagination;
-      Object.assign(data, this.filter);
+      this.loading = true
+      const data = this.pagination
+      Object.assign(data, this.filter)
       R.Member.InviteBalanceWithdrawOrders(data).then(resp => {
-        this.datas = resp.data.orders.data;
+        this.datas = resp.data.orders.data
         for (let i = 0; i < this.datas.length; i++) {
-          this.datas[i]._disabledSelect = this.datas[i].status !== 0;
+          this.datas[i]._disabledSelect = this.datas[i].status !== 0
         }
-        this.users = resp.data.users;
-        this.pagination.total = resp.data.orders.total;
-        this.loading = false;
-      });
+        this.users = resp.data.users
+        this.pagination.total = resp.data.orders.total
+        this.loading = false
+      })
     },
     multiHandle() {
-      let selectedRows = this.$refs.table.getSelection();
-      if (selectedRows.length == 0) {
-        HeyUI.$Message.warn('请选择需要操作的数据');
-        return;
+      const selectedRows = this.$refs.table.getSelection()
+      if (selectedRows.length === 0) {
+        HeyUI.$Message.warn('请选择需要操作的数据')
+        return
       }
-      let ids = [];
+      const ids = []
       for (var i = 0; i < selectedRows.length; i++) {
-        ids.push(selectedRows[i].id);
+        ids.push(selectedRows[i].id)
       }
 
       this.$Modal({
         component: {
           vue: resolve => {
-            require(['./children/InviteBalanceHandle'], resolve);
+            require(['./children/InviteBalanceHandle'], resolve)
           },
           datas: {
             ids: ids
@@ -166,12 +166,12 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData();
+            modal.close()
+            this.getData()
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

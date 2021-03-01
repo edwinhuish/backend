@@ -3,7 +3,7 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">关联</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -14,26 +14,26 @@
           permission="addons.learnPaths.relation.store"
           text="添加"
           @click="create()"
-        ></p-button>
+        />
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas">
-          <TableItem prop="id" title="ID" :width="120"></TableItem>
-          <TableItem prop="sort" title="升序" :width="100"></TableItem>
-          <TableItem prop="type_text" title="类型" :width="120"></TableItem>
-          <TableItem prop="name" title="课程"></TableItem>
-          <TableItem prop="charge" title="价格" :width="120"></TableItem>
+          <TableItem prop="id" title="ID" :width="120" />
+          <TableItem prop="sort" title="升序" :width="100" />
+          <TableItem prop="type_text" title="类型" :width="120" />
+          <TableItem prop="name" title="课程" />
+          <TableItem prop="charge" title="价格" :width="120" />
           <TableItem title="操作" align="center" :width="200">
             <template slot-scope="{ data }">
-              <p-del-button permission="addons.learnPaths.relation.delete" @click="remove(datas, data)"></p-del-button>
-              <p-button glass="h-btn h-btn-primary h-btn-s" permission="addons.learnPaths.relation.update" text="编辑" @click="edit(data)"></p-button>
+              <p-del-button permission="addons.learnPaths.relation.delete" @click="remove(datas, data)" />
+              <p-button glass="h-btn h-btn-primary h-btn-s" permission="addons.learnPaths.relation.update" text="编辑" @click="edit(data)" />
             </template>
           </TableItem>
         </Table>
       </div>
 
       <div class="float-box mb-10">
-        <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-model="pagination" class="mt-10" align="right" @change="changePage" />
       </div>
     </div>
   </div>
@@ -51,25 +51,25 @@ export default {
       },
       datas: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.getData(true);
+    this.getData(true)
   },
   methods: {
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData(reload = false) {
       if (reload) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
+      this.loading = true
       R.Extentions.learningPaths.Relation.List(this.pagination).then(resp => {
-        this.datas = resp.data.data;
-        this.pagination.total = resp.data.total;
-        this.loading = false;
-      });
+        this.datas = resp.data.data
+        this.pagination.total = resp.data.total
+        this.loading = false
+      })
     },
     create() {
       this.$Modal({
@@ -77,7 +77,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           },
           datas: {
             id: this.id
@@ -85,17 +85,17 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData(true);
+            modal.close()
+            this.getData(true)
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.Extentions.learningPaths.Relation.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData();
-      });
+        HeyUI.$Message.success('成功')
+        this.getData()
+      })
     },
     edit(item) {
       this.$Modal({
@@ -103,7 +103,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -111,12 +111,12 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData();
+            modal.close()
+            this.getData()
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

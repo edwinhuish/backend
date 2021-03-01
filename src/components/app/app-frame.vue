@@ -1,44 +1,50 @@
-<style lang='less'>
-</style>
+<style lang="less"></style>
 <template>
   <div>
-    <Layout class="app-frame" v-if="!loading" :siderCollapsed="siderCollapsed" :siderFixed="layoutConfig.siderFixed">
+    <Layout v-if="!loading" class="app-frame" :sider-collapsed="siderCollapsed" :sider-fixed="layoutConfig.siderFixed">
       <Sider :theme="layoutConfig.siderTheme">
-        <appMenu :theme="layoutConfig.siderTheme"></appMenu>
+        <appMenu :theme="layoutConfig.siderTheme" />
       </Sider>
-      <Layout :headerFixed="layoutConfig.headerFixed">
+      <Layout :header-fixed="layoutConfig.headerFixed">
         <HHeader theme="white">
-          <appHead @openSetting="openSetting = true" :layoutConfig="layoutConfig"></appHead>
+          <appHead :layout-config="layoutConfig" @openSetting="openSetting = true" />
         </HHeader>
-        <SysTabs v-if="layoutConfig.showSystab" homePage="Home"></SysTabs>
+        <SysTabs v-if="layoutConfig.showSystab" home-page="Home" />
         <Content>
           <div class="app-frame-content">
             <!-- <keep-alive> -->
-            <router-view></router-view>
+            <router-view />
             <!-- </keep-alive> -->
           </div>
           <HFooter>
-            <appFooter></appFooter>
+            <appFooter />
           </HFooter>
         </Content>
       </Layout>
     </Layout>
     <Modal v-model="openSetting" type="drawer-right">
-      <appLayoutSetting :layoutConfig="layoutConfig"></appLayoutSetting>
+      <appLayoutSetting :layout-config="layoutConfig" />
     </Modal>
   </div>
 </template>
 <script>
-import appLayoutSetting from './modules/app-layout-setting';
-import appHead from './app-header';
-import appMenu from './app-menu';
-import appFooter from './app-footer';
-import SysTabs from '../common/sys-tabs';
-import store from 'js/vuex/store';
-import { mapState } from 'vuex';
-import { fullMenuKeys } from 'js/config/menu-config';
+import appLayoutSetting from './modules/app-layout-setting'
+import appHead from './app-header'
+import appMenu from './app-menu'
+import appFooter from './app-footer'
+import SysTabs from '../common/sys-tabs'
+import store from '@/store'
+import { mapState } from 'vuex'
+import { fullMenuKeys } from '@/config/menu-config'
 
 export default {
+  components: {
+    appHead,
+    appMenu,
+    SysTabs,
+    appFooter,
+    appLayoutSetting
+  },
   data() {
     return {
       loading: true,
@@ -49,33 +55,36 @@ export default {
         headerFixed: true,
         siderFixed: true
       }
-    };
+    }
+  },
+  computed: {
+    ...mapState(['siderCollapsed'])
   },
   mounted() {
-    this.init();
-    this.loading = false;
+    this.init()
+    this.loading = false
 
     const listener = G.addlistener('SYS_MENU_REFRESH', () => {
-      this.initMenu();
-    });
-    this.$once('hook:beforeDestroy', function () {
-      G.removelistener(listener);
-    });
+      this.initMenu()
+    })
+    this.$once('hook:beforeDestroy', function() {
+      G.removelistener(listener)
+    })
   },
   methods: {
     init() {
       R.User.info().then(resp => {
         if (resp.ok) {
-          let info = resp.data;
-          info.avatar = require('../../images/avatar.png');
-          G.set('account', info);
-          store.dispatch('updateAccount', info);
-          this.initMenu();
+          const info = resp.data
+          info.avatar = require('assets/images/avatar.png')
+          G.set('account', info)
+          store.dispatch('updateAccount', info)
+          this.initMenu()
         }
-      });
+      })
     },
     updateLayoutConfig({ key, value }) {
-      this.layoutConfig[key] = value;
+      this.layoutConfig[key] = value
     },
     initMenu() {
       // 如果使用权限配置，配合后端获取请求的数据
@@ -85,23 +94,13 @@ export default {
       //     this.menuSelect();
       //   }
       // });
-      let menus = Utils.getLocal2Json('SYS_CONFIG_MENU') || fullMenuKeys;
-      G.set('SYS_MENUS', menus);
-      G.trigger('SYS_MENU_UPDATE');
+      const menus = Utils.getLocal2Json('SYS_CONFIG_MENU') || fullMenuKeys
+      G.set('SYS_MENUS', menus)
+      G.trigger('SYS_MENU_UPDATE')
       // if (!isAuthPage(this.$route.name)) {
       //   this.$router.replace({ name: 'PermissionError' });
       // }
     }
-  },
-  computed: {
-    ...mapState(['siderCollapsed'])
-  },
-  components: {
-    appHead,
-    appMenu,
-    SysTabs,
-    appFooter,
-    appLayoutSetting
   }
-};
+}
 </script>

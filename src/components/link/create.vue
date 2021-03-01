@@ -4,25 +4,25 @@
       <span class="h-panel-title">添加</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">添加</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :labelWidth="110" :rules="rules" :model="link">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :label-width="110" :rules="rules" :model="link">
         <Row :space="10">
           <Cell :width="6">
             <FormItem label="链接名" prop="name">
-              <input type="text" v-model="link.name" />
+              <input v-model="link.name" type="text">
             </FormItem>
           </Cell>
           <Cell :width="12">
             <FormItem label="URL" prop="url">
-              <input type="text" v-model="link.url" />
+              <input v-model="link.url" type="text">
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="升序" prop="sort">
-              <input type="number" v-model="link.sort" />
+              <input v-model="link.sort" type="number">
             </FormItem>
           </Cell>
         </Row>
@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import Link from 'model/Link';
+import Link from 'model/Link'
 
 export default {
   data() {
@@ -40,24 +40,24 @@ export default {
       rules: {
         required: ['name', 'url', 'sort']
       }
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
-      this.link.sort = 1;
+      this.link.sort = 1
     },
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
         R.Link.Store(this.link).then(resp => {
-          HeyUI.$Message.success('成功');
-          this.$emit('success');
-        });
+          HeyUI.$Message.success('成功')
+          this.$emit('success')
+        })
       }
     }
   }
-};
+}
 </script>

@@ -5,11 +5,11 @@
     </div>
     <div class="h-panel-body">
       <div class="mb-10">
-        <p-button glass="h-btn h-btn-primary" permission="mpWechatMessageReply.store" text="添加规则" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="mpWechatMessageReply.store" text="添加规则" @click="create()" />
       </div>
       <Table :loading="loading" :datas="datas">
-        <TableItem prop="id" title="ID" :width="120"></TableItem>
-        <TableItem prop="type" title="类型" :width="120"></TableItem>
+        <TableItem prop="id" title="ID" :width="120" />
+        <TableItem prop="type" title="类型" :width="120" />
         <TableItem title="内容" :width="200">
           <template slot-scope="{ data }">
             <span v-if="data.type === 'text'">{{ data.rule }}</span>
@@ -18,18 +18,18 @@
         </TableItem>
         <TableItem title="回复内容">
           <template slot-scope="{ data }">
-            <div v-html="data.reply_content"></div>
+            <div v-html="data.reply_content" />
           </template>
         </TableItem>
         <TableItem title="操作" align="center" :width="200">
           <template slot-scope="{ data }">
-            <p-del-button permission="mpWechatMessageReply.destroy" @click="remove(datas, data)"></p-del-button>
-            <p-button glass="h-btn h-btn-s h-btn-primary" permission="mpWechatMessageReply.edit" text="编辑" @click="edit(data)"></p-button>
+            <p-del-button permission="mpWechatMessageReply.destroy" @click="remove(datas, data)" />
+            <p-button glass="h-btn h-btn-s h-btn-primary" permission="mpWechatMessageReply.edit" text="编辑" @click="edit(data)" />
           </template>
         </TableItem>
       </Table>
       <div class="mt-10">
-        <Pagination align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-model="pagination" align="right" @change="changePage" />
       </div>
     </div>
   </div>
@@ -45,26 +45,26 @@ export default {
       },
       datas: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.getData(true);
+    this.getData(true)
   },
   methods: {
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData(reload = false) {
       if (reload) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
-      let data = this.pagination;
+      this.loading = true
+      const data = this.pagination
       R.MpWechatMessageReply.List(data).then(resp => {
-        this.datas = resp.data.data.data;
-        this.pagination.total = resp.data.data.total;
-        this.loading = false;
-      });
+        this.datas = resp.data.data.data
+        this.pagination.total = resp.data.data.total
+        this.loading = false
+      })
     },
     create() {
       this.$Modal({
@@ -72,22 +72,22 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           }
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData(true);
+            modal.close()
+            this.getData(true)
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.MpWechatMessageReply.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData(true);
-      });
+        HeyUI.$Message.success('成功')
+        this.getData(true)
+      })
     },
     edit(item) {
       this.$Modal({
@@ -95,7 +95,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -103,12 +103,12 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData();
+            modal.close()
+            this.getData()
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

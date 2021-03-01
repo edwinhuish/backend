@@ -12,20 +12,14 @@
 </style>
 <template>
   <div class="editor">
-    <div ref="toolbar" class="toolbar"></div>
-    <div ref="editor" class="text"></div>
+    <div ref="toolbar" class="toolbar" />
+    <div ref="editor" class="text" />
   </div>
 </template>
 <script>
-import E from 'wangeditor';
+import E from 'wangeditor'
 export default {
   name: 'Editorbar',
-  data() {
-    return {
-      editor: null,
-      info_: null
-    };
-  },
   model: {
     prop: 'value',
     event: 'change'
@@ -36,22 +30,28 @@ export default {
       default: ''
     }
   },
+  data() {
+    return {
+      editor: null,
+      info_: null
+    }
+  },
   mounted() {
-    this.seteditor();
+    this.seteditor()
   },
   methods: {
     seteditor() {
-      this.editor = new E(this.$refs.toolbar, this.$refs.editor);
+      this.editor = new E(this.$refs.toolbar, this.$refs.editor)
 
-      this.editor.customConfig.uploadImgShowBase64 = false; // base 64 存储图片
-      this.editor.customConfig.uploadImgServer = '/backend/api/v1/upload/image/tinymce'; // 配置服务器端地址
+      this.editor.customConfig.uploadImgShowBase64 = false // base 64 存储图片
+      this.editor.customConfig.uploadImgServer = '/backend/api/v1/upload/image/tinymce' // 配置服务器端地址
       this.editor.customConfig.uploadImgHeaders = {
         Authorization: 'Bearer ' + Utils.getLocal('token')
-      }; // 自定义 header
-      this.editor.customConfig.uploadFileName = 'file'; // 后端接受上传文件的参数名
-      this.editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024; // 将图片大小限制为 2M
-      this.editor.customConfig.uploadImgMaxLength = 1; // 限制一次最多上传 3 张图片
-      this.editor.customConfig.uploadImgTimeout = 60 * 1000; // 设置超时时间
+      } // 自定义 header
+      this.editor.customConfig.uploadFileName = 'file' // 后端接受上传文件的参数名
+      this.editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024 // 将图片大小限制为 2M
+      this.editor.customConfig.uploadImgMaxLength = 1 // 限制一次最多上传 3 张图片
+      this.editor.customConfig.uploadImgTimeout = 60 * 1000 // 设置超时时间
 
       // 配置菜单
       this.editor.customConfig.menus = [
@@ -75,22 +75,22 @@ export default {
         'code', // 插入代码
         'undo', // 撤销
         'redo' // 重复
-      ];
+      ]
 
       this.editor.customConfig.uploadImgHooks = {
         customInsert: (insertImg, result, editor) => {
-          var url = result.location;
-          insertImg(url);
+          var url = result.location
+          insertImg(url)
         }
-      };
+      }
       this.editor.customConfig.onchange = html => {
-        this.info_ = html;
-        this.$emit('change', this.info_);
-      };
-      this.editor.create();
+        this.info_ = html
+        this.$emit('change', this.info_)
+      }
+      this.editor.create()
 
-      this.editor.txt.html(this.value);
+      this.editor.txt.html(this.value)
     }
   }
-};
+}
 </script>

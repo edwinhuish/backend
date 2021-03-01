@@ -3,7 +3,7 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">订阅记录</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -12,12 +12,12 @@
           <Row :space="10">
             <Cell :width="6">
               <FormItem label="UID">
-                <user-filter v-model="filter.user_id"></user-filter>
+                <user-filter v-model="filter.user_id" />
               </FormItem>
             </Cell>
             <Cell :width="10">
               <FormItem label="订阅时间">
-                <DateRangePicker v-model="dateRange" format="YYYY-MM-DD"></DateRangePicker>
+                <DateRangePicker v-model="dateRange" format="YYYY-MM-DD" />
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -30,12 +30,12 @@
         </Form>
       </div>
       <div class="float-box mb-10">
-        <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="video.subscribe.create" text="添加" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="video.subscribe.create" text="添加" @click="create()" />
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="data">
-          <TableItem title="视频ID" prop="video_id" :width="80"></TableItem>
-          <TableItem title="用户ID" prop="user_id" :width="80"></TableItem>
+          <TableItem title="视频ID" prop="video_id" :width="80" />
+          <TableItem title="用户ID" prop="user_id" :width="80" />
           <TableItem title="用户" :width="120">
             <template slot-scope="{ data }">
               <span v-if="typeof users[data.user_id] !== 'undefined'">{{ users[data.user_id].nick_name }}</span>
@@ -44,19 +44,19 @@
           </TableItem>
           <TableItem title="订阅时间" :width="120">
             <template slot-scope="{ data }">
-              <date-text :date="data.created_at"></date-text>
+              <date-text :date="data.created_at" />
             </template>
           </TableItem>
           <TableItem title="操作" :width="120">
             <template slot-scope="{ data }">
-              <p-del-button permission="video.subscribe.delete" @click="remove(data)"></p-del-button>
+              <p-del-button permission="video.subscribe.delete" @click="remove(data)" />
             </template>
           </TableItem>
         </Table>
       </div>
 
       <div class="float-box mb-10">
-        <Pagination align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-model="pagination" align="right" @change="changePage" />
       </div>
     </div>
   </div>
@@ -80,49 +80,49 @@ export default {
         subscribe_end_at: null
       },
       dateRange: {}
-    };
-  },
-  mounted() {
-    this.getData(true);
+    }
   },
   watch: {
     dateRange() {
-      this.filter.subscribe_start_at = this.dateRange.start;
-      this.filter.subscribe_end_at = this.dateRange.end;
+      this.filter.subscribe_start_at = this.dateRange.start
+      this.filter.subscribe_end_at = this.dateRange.end
     }
+  },
+  mounted() {
+    this.getData(true)
   },
   methods: {
     reset() {
-      this.filter.user_id = null;
-      this.filter.subscribe_start_at = null;
-      this.filter.subscribe_end_at = null;
-      this.dateRange = {};
-      this.getData(true);
+      this.filter.user_id = null
+      this.filter.subscribe_start_at = null
+      this.filter.subscribe_end_at = null
+      this.dateRange = {}
+      this.getData(true)
     },
     getData(reset = false) {
       if (reset) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
 
-      this.loading = true;
-      let data = this.pagination;
-      data.video_id = this.id;
-      Object.assign(data, this.filter);
+      this.loading = true
+      const data = this.pagination
+      data.video_id = this.id
+      Object.assign(data, this.filter)
       R.Video.Subscribes(data).then(res => {
-        this.data = res.data.data.data;
-        this.users = res.data.users;
-        this.pagination.total = res.data.data.total;
-        this.loading = false;
-      });
+        this.data = res.data.data.data
+        this.users = res.data.users
+        this.pagination.total = res.data.data.total
+        this.loading = false
+      })
     },
     changePage() {
-      this.getData();
+      this.getData()
     },
     remove(item) {
       R.Video.SubscribeDelete({ video_id: this.id, user_id: item.user_id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData();
-      });
+        HeyUI.$Message.success('成功')
+        this.getData()
+      })
     },
     create() {
       this.$Modal({
@@ -130,7 +130,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           },
           datas: {
             id: this.id
@@ -138,12 +138,12 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData(true);
+            modal.close()
+            this.getData(true)
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

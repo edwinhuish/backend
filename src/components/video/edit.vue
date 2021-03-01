@@ -25,44 +25,44 @@
         <span class="h-panel-title">编辑</span>
         <div class="h-panel-right">
           <Button color="primary" @click="create">保存</Button>
-          <Button @click="$emit('close')" :text="true">取消</Button>
+          <Button :text="true" @click="$emit('close')">取消</Button>
         </div>
       </div>
       <div class="h-panel-body">
-        <Form ref="form" mode="block" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="video">
+        <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="video">
           <Row :space="10">
             <Cell :width="5">
               <FormItem label="所属课程" prop="course_id">
-                <Select v-model="video.course_id" :datas="courses" keyName="id" titleName="title" :filterable="true" @change="selectCourse"></Select>
+                <Select v-model="video.course_id" :datas="courses" key-name="id" title-name="title" :filterable="true" @change="selectCourse" />
               </FormItem>
             </Cell>
             <Cell :width="4">
               <FormItem label="章节" prop="chapter_id">
-                <Select v-model="video.chapter_id" :datas="chapters" keyName="id" titleName="title" :filterable="true"></Select>
+                <Select v-model="video.chapter_id" :datas="chapters" key-name="id" title-name="title" :filterable="true" />
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="价格" prop="charge">
-                <div class="h-input-group" v-width="200">
-                  <input type="text" v-model="video.charge" />
+                <div v-width="200" class="h-input-group">
+                  <input v-model="video.charge" type="text">
                   <span class="h-input-addon">元</span>
                 </div>
               </FormItem>
             </Cell>
             <Cell :width="3">
               <FormItem label="禁止购买" prop="is_ban_sell">
-                <h-switch v-model="video.is_ban_sell" :trueValue="1" :falseValue="0"></h-switch>
+                <h-switch v-model="video.is_ban_sell" :true-value="1" :false-value="0" />
               </FormItem>
             </Cell>
             <Cell :width="3">
               <FormItem label="显示" prop="is_show">
-                <h-switch v-model="video.is_show" :trueValue="1" :falseValue="0"></h-switch>
+                <h-switch v-model="video.is_show" :true-value="1" :false-value="0" />
               </FormItem>
             </Cell>
             <Cell :width="3">
               <FormItem label="禁止快进" prop="ban_drag">
                 <template v-slot:label>禁止快进</template>
-                <h-switch v-model="video.ban_drag" :trueValue="1" :falseValue="0"></h-switch>
+                <h-switch v-model="video.ban_drag" :true-value="1" :false-value="0" />
               </FormItem>
             </Cell>
           </Row>
@@ -70,12 +70,12 @@
           <Row :space="10">
             <Cell :width="18">
               <FormItem label="视频名" prop="title">
-                <input type="text" v-model="video.title" />
+                <input v-model="video.title" type="text">
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="上架时间" prop="published_at">
-                <DatePicker v-model="video.published_at" type="datetime"></DatePicker>
+                <DatePicker v-model="video.published_at" type="datetime" />
               </FormItem>
             </Cell>
           </Row>
@@ -83,14 +83,14 @@
           <FormItem label="上传视频">
             <div class="upload-video-box">
               <div class="tabs">
-                <Button class="h-btn" :class="{ 'h-btn-primary': item === tab }" v-for="item in tabs" :key="item" @click="switchTab(item)">{{
+                <Button v-for="item in tabs" :key="item" class="h-btn" :class="{ 'h-btn-primary': item === tab }" @click="switchTab(item)">{{
                   item
                 }}</Button>
               </div>
               <div class="body">
-                <aliyun-video v-show="tab === '阿里云点播'" v-model="video.aliyun_video_id"></aliyun-video>
-                <tencent-video v-show="tab === '腾讯云点播'" v-model="video.tencent_video_id"></tencent-video>
-                <input type="text" v-show="tab === 'URL地址'" placeholder="视频URL地址（以mp4,m3u8等格式结尾的链接）" v-model="video.url" />
+                <aliyun-video v-show="tab === '阿里云点播'" v-model="video.aliyun_video_id" />
+                <tencent-video v-show="tab === '腾讯云点播'" v-model="video.tencent_video_id" />
+                <input v-show="tab === 'URL地址'" v-model="video.url" type="text" placeholder="视频URL地址（以mp4,m3u8等格式结尾的链接）">
               </div>
             </div>
           </FormItem>
@@ -98,12 +98,12 @@
           <Row :space="10">
             <Cell :width="12">
               <FormItem label="视频时长" prop="duration">
-                <input-duration v-model="video.duration"></input-duration>
+                <input-duration v-model="video.duration" />
               </FormItem>
             </Cell>
             <Cell :width="12">
               <FormItem label="试看时长" prop="free_seconds">
-                <input-duration v-model="video.free_seconds"></input-duration>
+                <input-duration v-model="video.free_seconds" />
               </FormItem>
             </Cell>
           </Row>
@@ -112,19 +112,19 @@
             <Cell :width="6">
               <FormItem label="Web播放器" prop="player_pc">
                 <template v-slot:label>Web播放器</template>
-                <Select v-model="video.player_pc" :datas="playerPc"></Select>
+                <Select v-model="video.player_pc" :datas="playerPc" />
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="手机播放器" prop="player_h5">
                 <template v-slot:label>手机播放器</template>
-                <Select v-model="video.player_h5" :datas="playerH5"></Select>
+                <Select v-model="video.player_h5" :datas="playerH5" />
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="评论开关" prop="comment_status">
                 <template v-slot:label>评论开关</template>
-                <Select v-model="video.comment_status" :datas="commentStatus"></Select>
+                <Select v-model="video.comment_status" :datas="commentStatus" />
               </FormItem>
             </Cell>
           </Row>
@@ -132,18 +132,18 @@
           <Row :space="10">
             <Cell :width="12">
               <FormItem label="SEO描述" prop="seo_description">
-                <textarea v-model="video.seo_description" rows="2" placeholder="seo描述"></textarea>
+                <textarea v-model="video.seo_description" rows="2" placeholder="seo描述" />
               </FormItem>
             </Cell>
             <Cell :width="12">
               <FormItem label="SEO关键字" prop="seo_keywords">
-                <textarea v-model="video.seo_keywords" rows="2" placeholder="seo关键字"></textarea>
+                <textarea v-model="video.seo_keywords" rows="2" placeholder="seo关键字" />
               </FormItem>
             </Cell>
           </Row>
 
           <FormItem label="Slug" prop="slug">
-            <input type="text" v-model="video.slug" placeholder="可选" />
+            <input v-model="video.slug" type="text" placeholder="可选">
           </FormItem>
         </Form>
       </div>
@@ -151,16 +151,21 @@
   </div>
 </template>
 <script>
-import TinymceEditor from '../common/tinymce';
-import AliyunVideo from '../common/video/aliyun/aliyun';
-import TencentVideo from '../common/video/tencent/tencent';
+// import TinymceEditor from '../common/tinymce'
+import AliyunVideo from '../common/video/aliyun/aliyun'
+import TencentVideo from '../common/video/tencent/tencent'
 
 export default {
-  props: ['id'],
   components: {
-    TinymceEditor,
+    // TinymceEditor,
     AliyunVideo,
     TencentVideo
+  },
+  props: {
+    id: {
+      type: Number,
+      required: true
+    }
   },
   data() {
     return {
@@ -235,54 +240,54 @@ export default {
       rules: {
         required: ['course_id', 'title', 'charge', 'published_at', 'is_show', 'is_ban_sell', 'ban_drag', 'duration']
       }
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     tabActive() {
       if (this.video.aliyun_video_id) {
-        this.tab = '阿里云点播';
+        this.tab = '阿里云点播'
       }
       if (this.video.tencent_video_id) {
-        this.tab = '腾讯云点播';
+        this.tab = '腾讯云点播'
       }
       if (this.video.url) {
-        this.tab = 'URL地址';
+        this.tab = 'URL地址'
       }
     },
     init() {
       R.Video.Edit({ id: this.id }).then(res => {
-        this.video = res.data.video;
-        this.tabActive();
-        this.selectCourse({ id: this.video.course_id });
-      });
+        this.video = res.data.video
+        this.tabActive()
+        this.selectCourse({ id: this.video.course_id })
+      })
 
       R.Video.Create().then(resp => {
-        this.courses = resp.data.courses;
-      });
+        this.courses = resp.data.courses
+      })
     },
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        this.video.render_desc = this.video.original_desc;
-        this.$emit('success', this.video);
+        this.video.render_desc = this.video.original_desc
+        this.$emit('success', this.video)
       }
     },
     selectCourse(course) {
       R.CourseChapter.List({ course_id: course.id }).then(resp => {
-        this.chapters = resp.data.chapters;
-      });
+        this.chapters = resp.data.chapters
+      })
     },
     switchTab(item) {
       if (this.video.aliyun_video_id || this.video.tencent_video_id || this.video.url) {
         // 禁止切换
-        HeyUI.$Message.warn('如需切换视频上传方式，请先清空已上传文件或者链接');
-        return;
+        HeyUI.$Message.warn('如需切换视频上传方式，请先清空已上传文件或者链接')
+        return
       }
-      this.tab = item;
+      this.tab = item
     }
   }
-};
+}
 </script>

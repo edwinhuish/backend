@@ -5,53 +5,53 @@
       <div class="h-panel-right">
         <Button color="primary" @click="create">添加</Button>
         <Button v-if="question.type === 1 || question.type === 2" color="primary" @click="addOption()">增加选项</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="question">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="question">
         <Row :space="10">
           <Cell width="6">
             <FormItem label="分类" prop="category_id">
               <template v-slot:label>分类</template>
-              <Select v-model="question.category_id" :datas="categories" keyName="id" titleName="name" :filterable="true"></Select>
+              <Select v-model="question.category_id" :datas="categories" key-name="id" title-name="name" :filterable="true" />
             </FormItem>
           </Cell>
           <Cell width="6">
             <FormItem label="类型" prop="type">
               <template v-slot:label>类型</template>
-              <Select v-model="question.type" :datas="types" keyName="id" titleName="name"></Select>
+              <Select v-model="question.type" :datas="types" key-name="id" title-name="name" />
             </FormItem>
           </Cell>
           <Cell width="6">
             <FormItem label="难度" prop="level">
               <template v-slot:label>难度</template>
-              <Select v-model="question.level" :datas="levels" keyName="id" titleName="name"></Select>
+              <Select v-model="question.level" :datas="levels" key-name="id" title-name="name" />
             </FormItem>
           </Cell>
           <Cell width="6">
             <FormItem label="分数" prop="score">
               <template v-slot:label>分数</template>
-              <input type="number" v-model="question.score" min="0" />
+              <input v-model="question.score" type="number" min="0">
             </FormItem>
           </Cell>
         </Row>
 
         <FormItem label="问题内容" prop="content">
           <template v-slot:label>问题内容</template>
-          <tinymce-editor v-model="question.content"></tinymce-editor>
+          <tinymce-editor v-model="question.content" />
         </FormItem>
 
         <template v-if="question.type === 1 || question.type === 2">
           <FormItem label="答案">
             <template v-slot:label>答案</template>
-            <Select v-if="question.type === 2" v-model="choiceAnswer" :datas="choiceAnswers" :multiple="true" keyName="key" titleName="title">
-              <template slot-scope="{ item }" slot="item">
+            <Select v-if="question.type === 2" v-model="choiceAnswer" :datas="choiceAnswers" :multiple="true" key-name="key" title-name="title">
+              <template slot="item" slot-scope="{ item }">
                 <div>{{ item.title }}</div>
               </template>
             </Select>
-            <Select v-else v-model="question.answer" :datas="choiceAnswers" keyName="key" titleName="title">
-              <template slot-scope="{ item }" slot="item">
+            <Select v-else v-model="question.answer" :datas="choiceAnswers" key-name="key" title-name="title">
+              <template slot="item" slot-scope="{ item }">
                 <div>{{ item.title }}</div>
               </template>
             </Select>
@@ -60,26 +60,26 @@
         <template v-else-if="question.type === 5">
           <FormItem label="答案" prop="answer">
             <template v-slot:label>答案</template>
-            <h-switch v-model="question.answer" trueValue="1" falseValue="0"></h-switch>
+            <h-switch v-model="question.answer" true-value="1" false-value="0" />
           </FormItem>
         </template>
         <template v-else>
-          <FormItem label="答案" prop="answer" v-if="question.type !== 5">
+          <FormItem v-if="question.type !== 5" label="答案" prop="answer">
             <template v-slot:label>答案</template>
-            <textarea v-model="question.answer"></textarea>
-            <warn text="如果是多选的话，多个答案请用英文逗号分开。如果是问答题的话，则无标准答案，需要人工阅卷。"></warn>
+            <textarea v-model="question.answer" />
+            <warn text="如果是多选的话，多个答案请用英文逗号分开。如果是问答题的话，则无标准答案，需要人工阅卷。" />
           </FormItem>
         </template>
 
         <FormItem label="解析" prop="remark">
           <template v-slot:label>解析</template>
-          <tinymce-editor v-model="question.remark"></tinymce-editor>
+          <tinymce-editor v-model="question.remark" />
         </FormItem>
 
         <template v-if="question.type === 1 || question.type === 2">
-          <FormItem :prop="'option' + i" v-for="i in optionLength" :key="i">
+          <FormItem v-for="i in optionLength" :key="i" :prop="'option' + i">
             <template v-slot:label>选项{{ i }}</template>
-            <wang-editor v-model="question['option' + i]"></wang-editor>
+            <wang-editor v-model="question['option' + i]" />
           </FormItem>
         </template>
       </Form>
@@ -87,8 +87,8 @@
   </div>
 </template>
 <script>
-import TinymceEditor from '@/components/common/tinymce';
-import WangEditor from '@/components/common/wangEditor';
+import TinymceEditor from '@/components/common/tinymce'
+import WangEditor from '@/components/common/wangEditor'
 
 export default {
   components: { TinymceEditor, WangEditor },
@@ -121,56 +121,56 @@ export default {
       levels: [],
       types: [],
       categories: []
-    };
-  },
-  mounted() {
-    this.init();
+    }
   },
   computed: {
     choiceAnswers() {
-      let arr = [];
+      const arr = []
       for (let i = 1; i <= this.optionLength; i++) {
-        let key = 'option' + i;
-        let val = this.question[key];
+        const key = 'option' + i
+        const val = this.question[key]
         if (!val) {
-          continue;
+          continue
         }
         arr.push({
           key: 'option' + i,
           title: `选项${i}`
-        });
+        })
       }
-      return arr;
+      return arr
     }
+  },
+  mounted() {
+    this.init()
   },
   methods: {
     addOption() {
       if (this.optionLength < 10) {
-        this.optionLength++;
+        this.optionLength++
       } else {
-        HeyUI.$Message.warn('最多支持10个选项');
+        HeyUI.$Message.warn('最多支持10个选项')
       }
     },
     init() {
       R.Extentions.paper.Question.Create().then(res => {
-        this.levels = res.data.levels;
-        this.types = res.data.types;
-        this.categories = res.data.categories;
-      });
+        this.levels = res.data.levels
+        this.types = res.data.types
+        this.categories = res.data.categories
+      })
     },
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        let data = this.question;
+        const data = this.question
         if (data.type === 2) {
-          data.answer = this.choiceAnswer.join(',');
+          data.answer = this.choiceAnswer.join(',')
         }
         R.Extentions.paper.Question.Store(data).then(resp => {
-          HeyUI.$Message.success('成功');
-          this.$emit('success');
-        });
+          HeyUI.$Message.success('成功')
+          this.$emit('success')
+        })
       }
     }
   }
-};
+}
 </script>

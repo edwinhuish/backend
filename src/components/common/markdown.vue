@@ -1,17 +1,17 @@
 <template>
   <div>
     <mavon-editor
+      ref="md"
       :box-shadow="false"
       :transitio="false"
       placeholder=""
       :autofocus="false"
       :toolbars="config.toolbars"
       :value="text"
-      ref="md"
       @imgAdd="imgAdd"
       @imgDel="imgDel"
       @change="valChange"
-    ></mavon-editor>
+    />
   </div>
 </template>
 <script>
@@ -41,38 +41,38 @@ export default {
           alignright: true // 右对齐
         }
       }
-    };
+    }
   },
   methods: {
     valChange(value, renderValue) {
-      this.$emit('textChange', value, renderValue);
+      this.$emit('textChange', value, renderValue)
     },
     imgAdd(pos, $file) {
-      var xhr;
+      var xhr
 
-      xhr = new XMLHttpRequest();
-      xhr.withCredentials = false;
-      xhr.open('POST', '/backend/api/v1/upload/image/tinymce');
-      xhr.setRequestHeader('Authorization', 'Bearer ' + Utils.getLocal('token'));
+      xhr = new XMLHttpRequest()
+      xhr.withCredentials = false
+      xhr.open('POST', '/backend/api/v1/upload/image/tinymce')
+      xhr.setRequestHeader('Authorization', 'Bearer ' + Utils.getLocal('token'))
 
       xhr.onload = () => {
-        var json = JSON.parse(xhr.responseText);
+        var json = JSON.parse(xhr.responseText)
 
         if (xhr.status !== 200) {
-          HeyUI.$Message.warn('HTTP Error: ' + xhr.status);
-          return;
+          HeyUI.$Message.warn('HTTP Error: ' + xhr.status)
+          return
         }
 
-        this.$refs.md.$img2Url(pos, json.location);
-      };
+        this.$refs.md.$img2Url(pos, json.location)
+      }
 
-      var formdata = new FormData();
-      formdata.append('file', $file);
-      xhr.send(formdata);
+      var formdata = new FormData()
+      formdata.append('file', $file)
+      xhr.send(formdata)
     },
     imgDel(filename) {
-      console.log(filename);
+      console.log(filename)
     }
   }
-};
+}
 </script>

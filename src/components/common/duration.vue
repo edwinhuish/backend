@@ -41,15 +41,15 @@
 <template>
   <div class="duration">
     <div class="hour">
-      <input type="text" v-model="hour" min="0" placeholder="时" />
+      <input v-model="hour" type="text" min="0" placeholder="时">
     </div>
     <div class="unit">时</div>
     <div class="minute">
-      <input type="text" v-model="minute" min="0" placeholder="分" />
+      <input v-model="minute" type="text" min="0" placeholder="分">
     </div>
     <div class="unit">分</div>
     <div class="second">
-      <input type="text" v-model="second" min="0" placeholder="秒" />
+      <input v-model="second" type="text" min="0" placeholder="秒">
     </div>
     <div class="unit">秒</div>
   </div>
@@ -63,32 +63,32 @@ export default {
       minute: 0,
       second: 0,
       seconds: 0
-    };
+    }
   },
   watch: {
     value(newVal) {
-      this.seconds = parseInt(newVal);
+      this.seconds = parseInt(newVal)
     },
     seconds(newVal) {
-      this.dateParse();
-      this.$emit('input', parseInt(newVal));
+      this.dateParse()
+      this.$emit('input', parseInt(newVal))
     },
     hour() {
-      this.seconds = parseInt(this.hour * 3600) + parseInt(this.minute * 60) + parseInt(this.second);
+      this.seconds = parseInt(this.hour * 3600) + parseInt(this.minute * 60) + parseInt(this.second)
     },
     minute() {
-      this.seconds = parseInt(this.hour * 3600) + parseInt(this.minute * 60) + parseInt(this.second);
+      this.seconds = parseInt(this.hour * 3600) + parseInt(this.minute * 60) + parseInt(this.second)
     },
     second() {
-      this.seconds = parseInt(this.hour * 3600) + parseInt(this.minute * 60) + parseInt(this.second);
+      this.seconds = parseInt(this.hour * 3600) + parseInt(this.minute * 60) + parseInt(this.second)
     }
   },
   methods: {
     dateParse() {
-      this.hour = parseInt(this.seconds / 3600);
-      this.minute = parseInt((this.seconds - this.hour * 3600) / 60);
-      this.second = parseInt(this.seconds - this.hour * 3600 - this.minute * 60);
+      this.hour = parseInt(this.seconds / 3600)
+      this.minute = parseInt((this.seconds - this.hour * 3600) / 60)
+      this.second = parseInt(this.seconds - this.hour * 3600 - this.minute * 60)
     }
   }
-};
+}
 </script>

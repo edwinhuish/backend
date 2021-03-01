@@ -5,22 +5,22 @@
     </div>
     <div class="h-panel-body">
       <div class="flaot-box mb-10">
-        <p-button glass="h-btn h-btn-primary" permission="slider.store" text="添加" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="slider.store" text="添加" @click="create()" />
       </div>
       <div class="flaot-box mb-10">
         <Table :loading="loading" :datas="datas">
-          <TableItem prop="platform" title="平台" :width="80"></TableItem>
-          <TableItem prop="sort" title="排序" :width="80"></TableItem>
+          <TableItem prop="platform" title="平台" :width="80" />
+          <TableItem prop="sort" title="排序" :width="80" />
           <TableItem title="封面">
             <template slot-scope="{ data }">
-              <img :src="data.thumb" width="120" height="60" />
+              <img :src="data.thumb" width="120" height="60">
             </template>
           </TableItem>
-          <TableItem prop="url" title="URL"></TableItem>
+          <TableItem prop="url" title="URL" />
           <TableItem title="操作" align="center" :width="200">
             <template slot-scope="{ data }">
-              <p-del-button permission="slider.destroy" @click="remove(datas, data)"></p-del-button>
-              <p-button glass="h-btn h-btn-s h-btn-primary" permission="slider.edit" text="编辑" @click="edit(data)"></p-button>
+              <p-del-button permission="slider.destroy" @click="remove(datas, data)" />
+              <p-button glass="h-btn h-btn-s h-btn-primary" permission="slider.edit" text="编辑" @click="edit(data)" />
             </template>
           </TableItem>
         </Table>
@@ -34,21 +34,21 @@ export default {
     return {
       datas: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.getData(true);
+    this.getData(true)
   },
   methods: {
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData(reload = false) {
-      this.loading = true;
+      this.loading = true
       R.Slider.List(this.pagination).then(resp => {
-        this.datas = resp.data;
-        this.loading = false;
-      });
+        this.datas = resp.data
+        this.loading = false
+      })
     },
     create() {
       this.$Modal({
@@ -56,22 +56,22 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           }
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData(true);
+            modal.close()
+            this.getData(true)
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.Slider.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData();
-      });
+        HeyUI.$Message.success('成功')
+        this.getData()
+      })
     },
     edit(item) {
       this.$Modal({
@@ -79,7 +79,7 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -87,12 +87,12 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
-            this.getData();
+            modal.close()
+            this.getData()
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

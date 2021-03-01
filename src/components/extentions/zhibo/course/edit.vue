@@ -5,25 +5,25 @@
       <span class="h-panel-title">编辑</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="course">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="course">
         <Row :space="10">
           <Cell :width="6">
             <FormItem label="分类" prop="category_id">
-              <Select v-model="course.category_id" :datas="categories" keyName="id" titleName="name" :filterable="true"></Select>
+              <Select v-model="course.category_id" :datas="categories" key-name="id" title-name="name" :filterable="true" />
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="讲师" prop="teacher_id">
-              <Select v-model="course.teacher_id" :datas="teachers" keyName="id" titleName="name" :filterable="true"></Select>
+              <Select v-model="course.teacher_id" :datas="teachers" key-name="id" title-name="name" :filterable="true" />
             </FormItem>
           </Cell>
           <Cell :width="12">
             <FormItem label="课程标题" prop="title">
-              <input type="text" v-model="course.title" />
+              <input v-model="course.title" type="text">
             </FormItem>
           </Cell>
         </Row>
@@ -31,7 +31,7 @@
         <Row :space="10">
           <Cell :width="24">
             <FormItem label="课程封面" prop="thumb">
-              <image-upload v-model="course.thumb" name="课程封面"></image-upload>
+              <image-upload v-model="course.thumb" name="课程封面" />
             </FormItem>
           </Cell>
         </Row>
@@ -39,44 +39,44 @@
         <Row :space="10">
           <Cell :width="6">
             <FormItem label="价格" prop="charge">
-              <input type="number" v-model="course.charge" />
+              <input v-model="course.charge" type="number">
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="上架时间" prop="published_at">
-              <DatePicker v-model="course.published_at" v-width="200" type="datetime"></DatePicker>
+              <DatePicker v-model="course.published_at" v-width="200" type="datetime" />
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="会员免费" prop="vip_can_view">
-              <h-switch v-model="course.vip_can_view" :trueValue="1" :falseValue="0"></h-switch>
+              <h-switch v-model="course.vip_can_view" :true-value="1" :false-value="0" />
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem label="显示" prop="is_show">
-              <h-switch v-model="course.is_show" :trueValue="1" :falseValue="0"></h-switch>
+              <h-switch v-model="course.is_show" :true-value="1" :false-value="0" />
             </FormItem>
           </Cell>
         </Row>
 
         <FormItem label="简短介绍" prop="short_description">
-          <textarea v-model="course.short_description" rows="2"></textarea>
+          <textarea v-model="course.short_description" rows="2" />
         </FormItem>
         <FormItem label="详细介绍" prop="description">
-          <tinymce-editor v-model="course.original_desc"></tinymce-editor>
+          <tinymce-editor v-model="course.original_desc" />
         </FormItem>
       </Form>
     </div>
   </div>
 </template>
 <script>
-import TinymceEditor from '@/components/common/tinymce';
+import TinymceEditor from '@/components/common/tinymce'
 
 export default {
-  props: ['id'],
   components: {
     TinymceEditor
   },
+  props: ['id'],
   data() {
     return {
       course: {
@@ -107,28 +107,28 @@ export default {
       },
       teachers: [],
       categories: []
-    };
+    }
   },
   mounted() {
     R.Extentions.zhibo.Course.Create().then(res => {
-      this.teachers = res.data.teachers;
-      this.categories = res.data.categories;
-    });
+      this.teachers = res.data.teachers
+      this.categories = res.data.categories
+    })
     R.Extentions.zhibo.Course.Edit({ id: this.id }).then(res => {
-      this.course = res.data;
-    });
+      this.course = res.data
+    })
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        this.course.render_desc = this.course.original_desc;
+        this.course.render_desc = this.course.original_desc
         R.Extentions.zhibo.Course.Update(this.course).then(resp => {
-          HeyUI.$Message.success('成功');
-          this.$emit('success');
-        });
+          HeyUI.$Message.success('成功')
+          this.$emit('success')
+        })
       }
     }
   }
-};
+}
 </script>

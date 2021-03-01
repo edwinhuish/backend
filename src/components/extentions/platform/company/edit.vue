@@ -4,20 +4,20 @@
       <span class="h-panel-title">编辑机构</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="form">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="form">
         <Row :space="10">
           <Cell :width="24">
             <FormItem label="机构名" prop="name">
-              <input type="text" v-model="form.name" placeholder="请输入机构名" />
+              <input v-model="form.name" type="text" placeholder="请输入机构名">
             </FormItem>
           </Cell>
           <Cell :width="24">
             <FormItem label="机构简介" prop="desc">
-              <textarea v-model="form.desc" placeholder="请输入简介"></textarea>
+              <textarea v-model="form.desc" placeholder="请输入简介" />
             </FormItem>
           </Cell>
         </Row>
@@ -25,12 +25,12 @@
         <Row :space="10">
           <Cell :width="8">
             <FormItem prop="vod_service" label="点播服务">
-              <Select v-model="form.vod_service" :datas="options.vodServices" :filterable="true" keyName="value" titleName="name"></Select>
+              <Select v-model="form.vod_service" :datas="options.vodServices" :filterable="true" key-name="value" title-name="name" />
             </FormItem>
           </Cell>
           <Cell :width="8">
             <FormItem prop="live_service" label="直播服务">
-              <Select v-model="form.live_service" :datas="options.liveServices" :filterable="true" keyName="value" titleName="name"></Select>
+              <Select v-model="form.live_service" :datas="options.liveServices" :filterable="true" key-name="value" title-name="name" />
             </FormItem>
           </Cell>
         </Row>
@@ -74,20 +74,20 @@ export default {
       rules: {
         required: ['name', 'desc', 'vod_service', 'live_service']
       }
-    };
+    }
   },
   mounted() {
     R.Extentions.Platform.Company.Edit(this.id).then(resp => {
-      this.form = resp.data;
-    });
+      this.form = resp.data
+    })
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        this.$emit('success', this.form);
+        this.$emit('success', this.form)
       }
     }
   }
-};
+}
 </script>

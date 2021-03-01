@@ -1,12 +1,11 @@
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
 <template>
   <div class="h-panel w-1000">
     <div class="h-panel-bar">
       <span class="h-panel-title">添加</span>
       <div class="h-panel-right">
-        <p-del-button permission="addons.Paper.practice_chapter.questions.store" text="添加" @click="addQuestion()"></p-del-button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <p-del-button permission="addons.Paper.practice_chapter.questions.store" text="添加" @click="addQuestion()" />
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -15,7 +14,7 @@
           <Row :space="10">
             <Cell :width="12">
               <FormItem label="分类">
-                <Select v-model="filter.category_id" :datas="categories" keyName="id" titleName="name" :filterable="true"></Select>
+                <Select v-model="filter.category_id" :datas="categories" key-name="id" title-name="name" :filterable="true" />
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -51,14 +50,14 @@
           </TableItem>
           <TableItem title="内容">
             <template slot-scope="{ data }">
-              <div v-html="data.content"></div>
+              <div v-html="data.content" />
             </template>
           </TableItem>
         </Table>
       </div>
 
       <div class="float-box mb-10">
-        <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-model="pagination" class="mt-10" align="right" @change="changePage" />
       </div>
     </div>
   </div>
@@ -81,52 +80,52 @@ export default {
       datas: [],
       categories: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.getData(true);
+    this.getData(true)
   },
   methods: {
     changePage() {
-      this.getData();
+      this.getData()
     },
     resetFilter() {
-      this.filter.category_id = null;
-      this.id = null;
-      this.getData(true);
+      this.filter.category_id = null
+      this.id = null
+      this.getData(true)
     },
     getData(reset = false) {
-      this.loading = true;
+      this.loading = true
       if (reset) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      let data = this.pagination;
-      Object.assign(data, this.filter);
+      const data = this.pagination
+      Object.assign(data, this.filter)
       R.Extentions.paper.PracticeChapter.QuestionsCreate(data).then(resp => {
-        this.loading = false;
+        this.loading = false
 
-        this.datas = resp.data.data.data;
-        this.pagination.total = resp.data.data.total;
-        this.questions = resp.data.questions;
-        this.categories = resp.data.categories;
-      });
+        this.datas = resp.data.data.data
+        this.pagination.total = resp.data.data.total
+        this.questions = resp.data.questions
+        this.categories = resp.data.categories
+      })
     },
     addQuestion(quesiton) {
-      let items = this.$refs.table.getSelection();
+      const items = this.$refs.table.getSelection()
       if (items.length === 0) {
-        this.$Message.error('请选择需要移除的试题');
-        return;
+        this.$Message.error('请选择需要移除的试题')
+        return
       }
-      this.loading = true;
-      let ids = [];
+      this.loading = true
+      const ids = []
       for (let i = 0; i < items.length; i++) {
-        ids.push(items[i].id);
+        ids.push(items[i].id)
       }
       R.Extentions.paper.PracticeChapter.QuestionsStore({ id: this.id, qids: ids }).then(() => {
-        HeyUI.$Message.success('成功');
-        this.getData();
-      });
+        HeyUI.$Message.success('成功')
+        this.getData()
+      })
     }
   }
-};
+}
 </script>

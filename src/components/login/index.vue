@@ -109,24 +109,12 @@
       <div class="login-content">
         <div class="login-title">后台登录</div>
         <div class="login-name login-input">
-          <input type="text" name="username" v-model="login.username" autocomplete="off" />
-          <span
-            class="placeholder"
-            :class="{fixed: login.username != '' && login.username != null}"
-          >邮箱</span>
+          <input v-model="login.username" type="text" name="username" autocomplete="off">
+          <span class="placeholder" :class="{ fixed: login.username != '' && login.username != null }">邮箱</span>
         </div>
         <div class="login-password login-input">
-          <input
-            type="password"
-            name="password"
-            v-model="login.password"
-            @keyup.enter="submit"
-            autocomplete="off"
-          />
-          <span
-            class="placeholder"
-            :class="{fixed: login.password != '' && login.password != null}"
-          >密码</span>
+          <input v-model="login.password" type="password" name="password" autocomplete="off" @keyup.enter="submit">
+          <span class="placeholder" :class="{ fixed: login.password != '' && login.password != null }">密码</span>
         </div>
         <div class="buttonDiv">
           <Button block color="primary" size="l" @click="submit">登录</Button>
@@ -140,26 +128,26 @@
   </div>
 </template>
 <script>
-import Login from 'model/login/Login';
+import Login from 'model/login/Login'
 
 export default {
   data() {
     return {
       login: Login.parse({}),
       loading: false
-    };
+    }
   },
   methods: {
     submit() {
-      this.loading = true;
+      this.loading = true
       R.Login.login(Login.dispose(this.login)).then(resp => {
         if (resp.ok) {
-          Utils.saveLocal('token', resp.data.token);
-          this.$router.push({ name: 'Home' });
+          Utils.saveLocal('token', resp.data.token)
+          this.$router.push({ name: 'Home' })
         }
-        this.loading = false;
-      });
+        this.loading = false
+      })
     }
   }
-};
+}
 </script>

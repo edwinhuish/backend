@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:dependabot" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:dependabot" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:npm_and_yarn" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:feature" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2bb824d4-fd0d-42c0-b519-7510991579be" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.browserslistrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aliyun-upload-sdk-1.4.0/aliyun-upload-sdk-1.4.0.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aliyun-upload-sdk-1.4.0/lib/aliyun-oss-sdk-5.2.0.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aliyun-upload-sdk-1.4.0/lib/es6-promise.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ad_from/create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ad_from/create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/app/app-frame.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/app/app-frame.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/error-pages/403.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/error-pages/403.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/error-pages/404.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/error-pages/404.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/error-pages/500.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/error-pages/500.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/app.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/common.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/fonts/Read Me.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/fonts/demo.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/fonts/fonts/heyuiadmin.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/fonts/fonts/heyuiadmin.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/fonts/fonts/heyuiadmin.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/fonts/fonts/heyuiadmin.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/fonts/selection.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/fonts/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/fonts/style.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/fonts/variables.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/frame.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/markdown.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/overwrite.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/var.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/var.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/avatar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/error-pages/403.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/error-pages/404.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/error-pages/500.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/common/ajax.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/common/request.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/common/utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/config/heyui-config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/config/menu-config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/config/router-config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/AdFrom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/Administrator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/AdministratorPermission.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/AdministratorRole.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/Announcement.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/Course.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/CourseCategory.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/CourseChapter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/Link.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/Nav.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/PromoCode.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/Role.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/User.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/Video.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/model/login/Login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/vue/components.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/vue/directives.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/vue/filters.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/vuex/store.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1p9pyoPg4Qt9L6r8rq7Ror0EW8Q" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2bb824d4-fd0d-42c0-b519-7510991579be" name="Default Changelist" comment="" />
+      <created>1614605423095</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1614605423095</updated>
+      <workItem from="1614605424430" duration="73000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

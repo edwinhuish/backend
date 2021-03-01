@@ -3,7 +3,7 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">订单</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -12,7 +12,7 @@
           <Row :space="10">
             <Cell :width="6">
               <FormItem label="UID">
-                <user-filter v-model="filter.user_id"></user-filter>
+                <user-filter v-model="filter.user_id" />
               </FormItem>
             </Cell>
             <Cell :width="12">
@@ -27,20 +27,20 @@
 
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas">
-          <TableItem title="用户ID" prop="user_id" :width="120"></TableItem>
+          <TableItem title="用户ID" prop="user_id" :width="120" />
           <TableItem title="用户">
             <template slot-scope="{ data }">
               <span v-if="data.user">{{ data.user.nick_name }}</span>
               <span v-else class="c-red">已删除</span>
             </template>
           </TableItem>
-          <TableItem prop="charge" title="价格" unit="元" :width="100"></TableItem>
-          <TableItem prop="created_at" title="时间" :width="200"></TableItem>
+          <TableItem prop="charge" title="价格" unit="元" :width="100" />
+          <TableItem prop="created_at" title="时间" :width="200" />
         </Table>
       </div>
 
       <div class="float-box mb-10">
-        <Pagination class="mt-10" v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+        <Pagination v-if="pagination.total > 0" v-model="pagination" class="mt-10" align="right" @change="changePage" />
       </div>
     </div>
   </div>
@@ -60,33 +60,33 @@ export default {
       },
       datas: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.getData(true);
+    this.getData(true)
   },
   methods: {
     reset() {
-      this.filter.user_id = null;
-      this.getData(true);
+      this.filter.user_id = null
+      this.getData(true)
     },
     changePage() {
-      this.getData();
+      this.getData()
     },
     getData(reload = false) {
       if (reload) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
-      let data = this.pagination;
-      data.topic_id = this.id;
-      data.user_id = this.filter.user_id;
+      this.loading = true
+      const data = this.pagination
+      data.topic_id = this.id
+      data.user_id = this.filter.user_id
       R.Extentions.meeduTopics.Order.Index(data).then(resp => {
-        this.datas = resp.data.data.data;
-        this.pagination.total = resp.data.data.total;
-        this.loading = false;
-      });
+        this.datas = resp.data.data.data
+        this.pagination.total = resp.data.data.total
+        this.loading = false
+      })
     }
   }
-};
+}
 </script>

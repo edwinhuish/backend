@@ -1,4 +1,4 @@
-<style lang='less'>
+<style lang="less">
 .app-logo {
   font-family: Futura, Helvetica Neue For Number, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, PingFang SC, Hiragino Sans GB, Microsoft YaHei,
     Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -33,10 +33,10 @@
 <script>
 export default {
   data() {
-    return {};
+    return {}
   },
+  computed: {},
   mounted() {},
-  methods: {},
-  computed: {}
-};
+  methods: {}
+}
 </script>

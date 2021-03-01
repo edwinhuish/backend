@@ -1,5 +1,5 @@
 <template>
-  <Button :class="glass" :icon="icon" v-if="inPermission" @click="$emit('click')">{{ text }}</Button>
+  <Button v-if="inPermission" :class="glass" :icon="icon" @click="$emit('click')">{{ text }}</Button>
 </template>
 <script>
 export default {
@@ -7,11 +7,11 @@ export default {
   computed: {
     inPermission() {
       if (typeof this.$store.state.User.permissions === 'undefined') {
-        return false;
+        return false
       }
-      let permissions = this.$store.state.User.permissions;
-      return typeof permissions[this.permission] !== 'undefined';
+      const permissions = this.$store.state.User.permissions
+      return typeof permissions[this.permission] !== 'undefined'
     }
   }
-};
+}
 </script>

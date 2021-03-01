@@ -3,7 +3,7 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">文章</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -12,7 +12,7 @@
           <Row :space="10">
             <Cell :width="12">
               <FormItem label="章节">
-                <Select v-model="pagination.chapter_id" :filterable="true" :datas="chapters" keyName="id" titleName="name"></Select>
+                <Select v-model="pagination.chapter_id" :filterable="true" :datas="chapters" key-name="id" title-name="name" />
               </FormItem>
             </Cell>
             <Cell :width="12">
@@ -26,19 +26,19 @@
       </div>
 
       <div class="float-box mb-10">
-        <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="addons.meedu_books.book.store" text="添加" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="addons.meedu_books.book.store" text="添加" @click="create()" />
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas">
-          <TableItem prop="id" title="ID" :width="100"></TableItem>
+          <TableItem prop="id" title="ID" :width="100" />
           <TableItem title="章节" :width="200">
             <template slot-scope="{ data }">
               <span v-if="data.chapter">{{ data.chapter.name }}</span>
-              <span class="red" v-else>未选择</span>
+              <span v-else class="red">未选择</span>
             </template>
           </TableItem>
-          <TableItem prop="title" title="标题"></TableItem>
-          <TableItem prop="view_times" title="浏览" unit="次" :width="100"></TableItem>
+          <TableItem prop="title" title="标题" />
+          <TableItem prop="view_times" title="浏览" unit="次" :width="100" />
           <TableItem title="显示" :width="60">
             <template slot-scope="{ data }">
               <span v-if="data.is_show === 1">是</span>
@@ -51,19 +51,19 @@
               <span v-else>否</span>
             </template>
           </TableItem>
-          <TableItem prop="published_at" title="上架时间" :width="200"></TableItem>
+          <TableItem prop="published_at" title="上架时间" :width="200" />
           <TableItem title="操作" align="center" :width="200">
             <template slot-scope="{ data }">
               <ButtonGroup>
-                <p-del-button permission="addons.meedu_books.book.delete" @click="remove(datas, data)"></p-del-button>
-                <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.meedu_books.book.update" text="编辑" @click="edit(data)"></p-button>
+                <p-del-button permission="addons.meedu_books.book.delete" @click="remove(datas, data)" />
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.meedu_books.book.update" text="编辑" @click="edit(data)" />
 
                 <p-button
                   glass="h-btn h-btn-primary h-btn-s"
                   permission="addons.meedu_books.book_article.comments.list"
                   text="评论"
                   @click="showCommentsPage(data)"
-                ></p-button>
+                />
               </ButtonGroup>
             </template>
           </TableItem>
@@ -91,32 +91,32 @@ export default {
       datas: [],
       chapters: [],
       loading: false
-    };
+    }
   },
   mounted() {
-    this.getData(true);
+    this.getData(true)
   },
   methods: {
     reset() {
-      this.pagination.chapter_id = null;
-      this.getData(true);
+      this.pagination.chapter_id = null
+      this.getData(true)
     },
     changePage(pagination) {
-      this.pagination.page = parseInt(pagination.cur);
-      this.pagination.size = parseInt(pagination.size);
-      this.getData();
+      this.pagination.page = parseInt(pagination.cur)
+      this.pagination.size = parseInt(pagination.size)
+      this.getData()
     },
     getData(reload = false) {
       if (reload) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
+      this.loading = true
       R.Extentions.meeduBooks.Article.List(this.pagination).then(resp => {
-        this.datas = resp.data.data.data;
-        this.pagination.total = resp.data.data.total;
-        this.chapters = resp.data.chapters;
-        this.loading = false;
-      });
+        this.datas = resp.data.data.data
+        this.pagination.total = resp.data.data.total
+        this.chapters = resp.data.chapters
+        this.loading = false
+      })
     },
     create() {
       this.$Modal({
@@ -124,7 +124,7 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./create'], resolve);
+            require(['./create'], resolve)
           },
           datas: {
             bid: this.bid
@@ -133,19 +133,19 @@ export default {
         events: {
           success: (modal, data) => {
             R.Extentions.meeduBooks.Article.Store(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     },
     remove(data, item) {
       R.Extentions.meeduBooks.Article.Delete({ id: item.id }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData(true);
-      });
+        HeyUI.$Message.success('成功')
+        this.getData(true)
+      })
     },
     edit(item) {
       this.$Modal({
@@ -153,7 +153,7 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['./edit'], resolve);
+            require(['./edit'], resolve)
           },
           datas: {
             id: item.id
@@ -162,13 +162,13 @@ export default {
         events: {
           success: (modal, data) => {
             R.Extentions.meeduBooks.Article.Update(data).then(resp => {
-              modal.close();
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+              modal.close()
+              HeyUI.$Message.success('成功')
+              this.getData(true)
+            })
           }
         }
-      });
+      })
     },
     showCommentsPage(item) {
       this.$Modal({
@@ -176,14 +176,14 @@ export default {
         hasCloseIcon: true,
         component: {
           vue: resolve => {
-            require(['../article_comment/index'], resolve);
+            require(['../article_comment/index'], resolve)
           },
           datas: {
             id: item.id
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

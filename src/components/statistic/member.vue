@@ -4,16 +4,16 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">每日会员注册统计</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
-        <Form :labelWidth="110">
+        <Form :label-width="110">
           <Row :space="10">
             <Cell :width="6">
               <FormItem label="时间范围">
-                <DateRangePicker v-model="daterange"></DateRangePicker>
+                <DateRangePicker v-model="daterange" />
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -25,13 +25,13 @@
         </Form>
       </div>
       <div class="float-box mb-10">
-        <line-chart :height="200" :chart-data="data"></line-chart>
+        <line-chart :height="200" :chart-data="data" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import LineChart from 'components/common/chartjs/line';
+import LineChart from 'components/common/chartjs/line'
 
 export default {
   components: {
@@ -45,22 +45,22 @@ export default {
         start: null,
         end: null
       }
-    };
+    }
   },
   mounted() {
-    this.getData();
+    this.getData()
   },
   methods: {
     getData() {
-      let data = {};
+      const data = {}
       if (this.daterange.start) {
-        data.start_at = this.daterange.start;
+        data.start_at = this.daterange.start
       }
       if (this.daterange.end) {
-        data.end_at = this.daterange.end;
+        data.end_at = this.daterange.end
       }
       R.Statistic.userRegister(data).then(resp => {
-        let data = {
+        const data = {
           labels: resp.data.labels,
           datasets: [
             {
@@ -68,13 +68,13 @@ export default {
               data: resp.data.dataset
             }
           ]
-        };
-        this.data = data;
-      });
+        }
+        this.data = data
+      })
     },
     close() {
-      this.$emit('close');
+      this.$emit('close')
     }
   }
-};
+}
 </script>

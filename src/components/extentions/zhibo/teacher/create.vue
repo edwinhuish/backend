@@ -4,35 +4,35 @@
       <span class="h-panel-title">添加</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">添加</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="teacher">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="teacher">
         <Row :space="10">
           <Cell :width="8">
             <FormItem label="讲师名" prop="name">
-              <input type="text" v-model="teacher.name" />
+              <input v-model="teacher.name" type="text">
             </FormItem>
           </Cell>
           <Cell :width="8">
             <FormItem label="邮箱" prop="username">
-              <input type="text" v-model="teacher.username" />
-              <warn text="用于教师登录"></warn>
+              <input v-model="teacher.username" type="text">
+              <warn text="用于教师登录" />
             </FormItem>
           </Cell>
           <Cell :width="8">
             <FormItem label="密码" prop="password">
-              <input type="text" v-model="teacher.password" />
+              <input v-model="teacher.password" type="text">
             </FormItem>
           </Cell>
         </Row>
 
         <FormItem label="头像" prop="avatar">
-          <image-upload v-model="teacher.avatar" name="头像"></image-upload>
+          <image-upload v-model="teacher.avatar" name="头像" />
         </FormItem>
         <FormItem label="简介" prop="short_desc">
-          <textarea v-model="teacher.short_desc" rows="3"></textarea>
+          <textarea v-model="teacher.short_desc" rows="3" />
         </FormItem>
       </Form>
     </div>
@@ -52,15 +52,15 @@ export default {
       rules: {
         required: ['name', 'avatar', 'short_desc', 'username', 'password']
       }
-    };
+    }
   },
   methods: {
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
-        this.$emit('success', this.teacher);
+        this.$emit('success', this.teacher)
       }
     }
   }
-};
+}
 </script>

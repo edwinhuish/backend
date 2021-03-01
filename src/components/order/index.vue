@@ -14,17 +14,17 @@
           <Row :space="10">
             <Cell :width="6">
               <FormItem label="UID">
-                <user-filter v-model="cond.user_id"></user-filter>
+                <user-filter v-model="cond.user_id" />
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="订单号">
-                <input type="text" v-model="cond.order_id" placeholder="订单号" />
+                <input v-model="cond.order_id" type="text" placeholder="订单号">
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="状态">
-                <Select v-model="cond.status" :datas="statusArr"></Select>
+                <Select v-model="cond.status" :datas="statusArr" />
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -38,8 +38,8 @@
       </div>
 
       <Table :loading="loading" :datas="datas" :stripe="true">
-        <TableItem prop="id" title="ID" :width="100"></TableItem>
-        <TableItem prop="user_id" title="用户ID" :width="100"></TableItem>
+        <TableItem prop="id" title="ID" :width="100" />
+        <TableItem prop="user_id" title="用户ID" :width="100" />
         <TableItem title="用户" :width="120">
           <template slot-scope="{ data }">
             <span v-if="users[data.user_id]">{{ users[data.user_id].nick_name }}</span>
@@ -71,23 +71,23 @@
         </TableItem>
         <TableItem title="时间" :width="120">
           <template slot-scope="{ data }">
-            <date-text :date="data.created_at"></date-text>
+            <date-text :date="data.created_at" />
           </template>
         </TableItem>
         <TableItem :width="240" title="操作" align="center">
           <template slot-scope="{ data }">
             <p-del-button
+              v-if="data.status === 1 || data.status === 5"
               permission="order.finish"
               text="改为已支付"
               @click="finishOrder(datas, data)"
-              v-if="data.status === 1 || data.status === 5"
-            ></p-del-button>
-            <p-button glass="h-btn h-btn-s h-btn-primary" permission="order.detail" text="详情" @click="showDetail(data)"></p-button>
+            />
+            <p-button glass="h-btn h-btn-s h-btn-primary" permission="order.detail" text="详情" @click="showDetail(data)" />
           </template>
         </TableItem>
       </Table>
-      <p></p>
-      <Pagination v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+      <p />
+      <Pagination v-if="pagination.total > 0" v-model="pagination" align="right" @change="changePage" />
     </div>
   </div>
 </template>
@@ -126,40 +126,40 @@ export default {
       datas: [],
       loading: false,
       users: []
-    };
+    }
   },
   mounted() {
-    this.getData(true);
+    this.getData(true)
   },
   methods: {
     changePage() {
-      this.getData();
+      this.getData()
     },
     reset() {
-      this.cond.user_id = null;
-      this.cond.status = null;
-      this.cond.order_id = null;
-      this.getData(true);
+      this.cond.user_id = null
+      this.cond.status = null
+      this.cond.order_id = null
+      this.getData(true)
     },
     getData(reload = false) {
       if (reload) {
-        this.pagination.page = 1;
+        this.pagination.page = 1
       }
-      this.loading = true;
-      let data = this.pagination;
-      Object.assign(data, this.cond);
+      this.loading = true
+      const data = this.pagination
+      Object.assign(data, this.cond)
       R.Order.List(data).then(resp => {
-        this.datas = resp.data.orders.data;
-        this.pagination.total = resp.data.orders.total;
-        this.loading = false;
-        this.users = resp.data.users;
-      });
+        this.datas = resp.data.orders.data
+        this.pagination.total = resp.data.orders.total
+        this.loading = false
+        this.users = resp.data.users
+      })
     },
     finishOrder(orders, order) {
       R.Order.Finish(order).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData(false);
-      });
+        HeyUI.$Message.success('成功')
+        this.getData(false)
+      })
     },
     showDetail(item) {
       this.$Modal({
@@ -167,7 +167,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./detail'], resolve);
+            require(['./detail'], resolve)
           },
           datas: {
             id: item.id
@@ -175,11 +175,11 @@ export default {
         },
         events: {
           success: (modal, data) => {
-            modal.close();
+            modal.close()
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>

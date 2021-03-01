@@ -3,18 +3,18 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">统计</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <div class="float-box" v-if="data">
-        <line-chart :height="200" :chart-data="data"></line-chart>
+      <div v-if="data" class="float-box">
+        <line-chart :height="200" :chart-data="data" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import LineChart from 'components/common/chartjs/line';
+import LineChart from 'components/common/chartjs/line'
 
 export default {
   components: {
@@ -25,16 +25,16 @@ export default {
     return {
       adfrom: null,
       data: null
-    };
+    }
   },
   mounted() {
-    this.init();
+    this.init()
   },
   methods: {
     init() {
       R.AdFrom.Number({ id: this.id }).then(resp => {
-        this.adfrom = resp.data.ad;
-        let data = {
+        this.adfrom = resp.data.ad
+        const data = {
           labels: resp.data.labels,
           datasets: [
             {
@@ -42,10 +42,10 @@ export default {
               data: resp.data.dataset
             }
           ]
-        };
-        this.data = data;
-      });
+        }
+        this.data = data
+      })
     }
   }
-};
+}
 </script>

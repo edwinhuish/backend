@@ -4,20 +4,20 @@
       <span class="h-panel-title">编辑</span>
       <div class="h-panel-right">
         <Button color="primary" @click="create">保存</Button>
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button :text="true" @click="$emit('close')">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
-      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="goods">
+      <Form ref="form" mode="block" :valid-on-change="true" :show-error-tip="true" :rules="rules" :model="goods">
         <Row :space="10">
           <Cell :width="24">
             <FormItem prop="goods_title" label="商品名">
-              <input type="text" v-model="goods.goods_title" />
+              <input v-model="goods.goods_title" type="text">
             </FormItem>
           </Cell>
           <Cell :width="6">
             <FormItem prop="original_charge" label="商品原价">
-              <input type="number" v-model="goods.goods_charge" min="0" />
+              <input v-model="goods.goods_charge" type="number" min="0">
             </FormItem>
           </Cell>
         </Row>
@@ -42,26 +42,26 @@ export default {
       },
       goodsList: [],
       types: []
-    };
+    }
   },
   mounted() {
-    this.getGoods();
+    this.getGoods()
   },
   methods: {
     getGoods() {
       R.Extentions.CodeExchanger.Goods.Edit({ id: this.id }).then(res => {
-        this.goods = res.data;
-      });
+        this.goods = res.data
+      })
     },
     create() {
-      let validResult = this.$refs.form.valid();
+      const validResult = this.$refs.form.valid()
       if (validResult.result) {
         R.Extentions.CodeExchanger.Goods.Update(this.goods).then(resp => {
-          HeyUI.$Message.success('成功');
-          this.$emit('success');
-        });
+          HeyUI.$Message.success('成功')
+          this.$emit('success')
+        })
       }
     }
   }
-};
+}
 </script>
